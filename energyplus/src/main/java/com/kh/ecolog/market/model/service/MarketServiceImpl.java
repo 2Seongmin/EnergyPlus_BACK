@@ -81,10 +81,9 @@ public class MarketServiceImpl implements MarketService  {
 
 	@Override
 	public void deleteMarket(Long marketNo) {
-		 // 1. 관련 이미지 먼저 삭제
+	
 	    marketMapper.deleteMarketImagesByMarketNo(marketNo);
 
-	    // 2. 게시글 삭제
 	    marketMapper.deleteMarket(marketNo);
 		
 	}
