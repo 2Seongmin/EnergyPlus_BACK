@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.market.model.dao.MarketMapper">
+	
+	<sql id="marketColumns">
+		MARKET_NO marketNo,
+		USER_ID userId, 
+		MARKET_TITLE marketTitle,
+		MARKET_CONTENT marketContent, 
+		MARKET_DATE marketDate,
+		MARKET_STATUS marketStatus,
+		MARKET_PRICE marketPrice
+	</sql>
+	<insert id="insertMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
+	
+    <!-- 시퀀스 값을 미리 DTO에 세팅 -->
+    <selectKey keyProperty="marketNo" resultType="long" order="BEFORE">
+        SELECT SEQ_MARKET_NO.NEXTVAL FROM DUAL
+    </selectKey>
+
+	    INSERT INTO TB_MARKET (
+	        MARKET_NO,
+	        USER_ID,
+	        MARKET_TITLE,
+	        MARKET_CONTENT,
+	        MARKET_DATE,
+	        MARKET_STATUS,
+	        MARKET_PRICE
+	    )
+	    VALUES (
+	        #{marketNo},         
+	        #{userId},
+	        #{marketTitle},
+	        #{marketContent},
+	        SYSDATE,
+	        #{marketStatus},
+	        #{marketPrice}
+	    )
+	</insert>
+	<insert id="insertMarketImage" parameterType="com.kh.ecolog.market.model.dto.MarketImageDTO">
+
+	  <selectKey keyProperty="marketImgId" resultType="long" order="BEFORE">
+	    SELECT SEQ_MARKET_IMG_ID.NEXTVAL FROM DUAL
+	  </selectKey>
+	
+	  INSERT INTO TB_MARKET_IMG (
+	    MARKET_IMG_ID,
+	    MARKET_NO,
+	    MARKET_IMG_URL,
+	    IMG_ORDER
+	  ) VALUES (
+	    #{marketImgId},
+	    #{marketNo},
+	    #{imgUrl},
+	    #{imgOrder}
+	  )
+	</insert>
+	
+	<update id="updateMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
+		 UPDATE TB_MARKET
+	    SET 
+	        MARKET_TITLE = #{marketTitle},
+	        MARKET_CONTENT = #{marketContent},
+	        MARKET_PRICE = #{marketPrice},
+	        MARKET_STATUS = #{marketStatus},
+	        MARKET_DATE = SYSDATE
+	    WHERE MARKET_NO = #{marketNo}
+	</update>
+	
+	<delete id="deleteMarket" parameterType="long">
+	    DELETE FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
+	</delete>
+	
+	<delete id="deleteMarketImagesByMarketNo" parameterType="long">
+	    DELETE FROM TB_MARKET_IMG WHERE MARKET_NO = #{marketNo}
+	</delete>
+	
+	<select id="findAllMarkets" resultType="com.kh.ecolog.market.model.dto.MarketDTO">
+	  SELECT 
+	    M.MARKET_NO AS marketNo,
+	    M.USER_ID AS userId,
+	    U.USER_NAME AS userName, <!-- ✅ 판매자 이름 -->
+	    M.MARKET_TITLE AS marketTitle,
+	    M.MARKET_CONTENT AS marketContent,
+	    M.MARKET_DATE AS marketDate,
+	    M.MARKET_STATUS AS marketStatus,
+	    DECODE(M.MARKET_STATUS, 'N', '판매중', 'Y', '판매완료') AS marketStatusLabel,
+	    M.MARKET_PRICE AS marketPrice,
+	    I.MARKET_IMG_URL AS thumbnailUrl
+	  FROM TB_MARKET M
+	  JOIN TB_USER U ON M.USER_ID = U.USER_ID           <!-- ✅ 판매자 이름용 JOIN -->
+	  LEFT JOIN TB_MARKET_IMG I 
+	    ON M.MARKET_NO = I.MARKET_NO AND I.IMG_ORDER = 1
+	  WHERE M.MARKET_STATUS = 'N'
+	  ORDER BY M.MARKET_NO DESC
+	</select>
+	
+
+</mapper>

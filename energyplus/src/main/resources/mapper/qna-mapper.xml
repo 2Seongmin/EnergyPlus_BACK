@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.qna.model.dao.QnaMapper">
+	
+	<insert id="insert" parameterType="Qna">
+		INSERT
+		  INTO
+		       TB_QNA
+		       (
+				  QNA_ID
+				, USER_ID
+				, QNA_TITLE
+				, QNA_CONTENT
+			   )
+		VALUES
+		      (
+				  PK_QNA_ID.NEXTVAL
+				, #{userId}
+				, #{qnaTitle}
+				, #{qnaContent}
+			  )
+	</insert>
+	
+	<update id="update" parameterType="Qna">
+		UPDATE
+		        TB_QNA
+		   SET
+		        QNA_TITLE = #{qnaTitle}
+		      , QNA_CONTENT = #{qnaContent}
+		      , QNA_DATE = SYSDATE
+		 WHERE
+		        QNA_ID = #{qnaId}
+	</update>
+
+
+
+
+</mapper>

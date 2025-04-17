@@ -1,0 +1,31 @@
+spring:
+  application:
+    name:  energyplus
+
+  datasource:
+    url:  jdbc:oracle:thin:@192.168.130.17:1521:XE
+    username:  KH15_LSM
+    password: KH1234
+    driver-class-name:  oracle.jdbc.driver.OracleDriver
+  profiles:
+    include: private
+  mvc:
+    static-path-pattern: /uploads/**
+  web:
+    resources:
+      static-locations: file:uploads/
+
+server:
+  port:  80
+
+servlet:
+  multipart:
+    max-file-size: 100MB
+    max-request-size: 100MB
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: VARCHAR
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.kh.ecolog.qna.model.vo, com.kh.ecolog.qna.model.dto, com.kh.ecolog.notice.model.dto
