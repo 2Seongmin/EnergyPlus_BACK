@@ -42,7 +42,7 @@ public class TokenServiceImpl implements TokenService {
 		tokenMapper.deleteExpiredRefreshToken(System.currentTimeMillis());
 		
 		
-		return null;
+		return tokens;
 	}
 	
 	/**
