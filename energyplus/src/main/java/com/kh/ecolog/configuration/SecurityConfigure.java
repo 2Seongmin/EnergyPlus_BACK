@@ -45,12 +45,8 @@ public class SecurityConfigure {
             .csrf(config -> config.disable())
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    HttpMethod.POST, "/markets/**"
-                ).permitAll()
-                .requestMatchers(
-                    HttpMethod.PUT, "/markets/**"
-                ).permitAll()
+                .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
                 .requestMatchers(
                     "/members/**", "/markets/**", "/notices/**", "/apis/**",
                     "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**"
