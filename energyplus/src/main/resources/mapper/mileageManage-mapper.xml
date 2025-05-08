@@ -9,13 +9,16 @@
 	<select id="findAllMileage"
 			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
 		SELECT
-			  MILEAGE_SEQ mileageSeq
-			, MILEAGE_CATEGORY mileageCategory
-			, USER_ID userId
-			, CREATE_DATE createDate
-			, MILEAGE_STATUS mileageStatus
+			  M.MILEAGE_SEQ mileageSeq
+			, M.MILEAGE_CATEGORY mileageCategory
+			, M.USER_ID userId
+			, M.CREATE_DATE createDate
+			, M.MILEAGE_STATUS mileageStatus
+			, U.USER_NAME userName
 		FROM
-			TB_MILEAGE
+			TB_MILEAGE M
+		JOIN
+			TB_USER U ON M.USER_ID = U.USER_ID
 		ORDER BY createDate DESC
 	</select>
 	
@@ -23,29 +26,47 @@
 			parameterType="long"
 			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
 		SELECT
-			  USER_ID userId
-			, MILEAGE_TITLE mileageTitle
-			, MILEAGE_CONTENT mileageContent
-			, MILEAGE_CATEGORY mileageCategory
-			, MILEAGE_IMG mileageImg
-			, MILEAGE_STATUS mileageStatus
-			, CREATE_DATE createDate
+			  M.USER_ID userId
+			, M.MILEAGE_TITLE mileageTitle
+			, M.MILEAGE_CONTENT mileageContent
+			, M.MILEAGE_CATEGORY mileageCategory
+			, M.MILEAGE_IMG mileageImg
+			, M.MILEAGE_STATUS mileageStatus
+			, M.CREATE_DATE createDate
+			, U.USER_NAME userName
 		FROM
-			TB_MILEAGE
+			TB_MILEAGE M
+		JOIN
+			TB_USER U ON M.USER_ID = U.USER_ID
 		WHERE
-			MILEAGE_SEQ = #{mileageSeq}
+			M.MILEAGE_SEQ = #{mileageSeq}
 	</select>
-	
-	<update id="updateMileageStatus"
+
+	<!-- 승인할 때 사용 -->
+	<update id="updateMileageStatusS"
 			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
 		UPDATE
 			TB_MILEAGE
 		SET 
-			MILEAGE_STATUS = #{mileageStatus} 
+			MILEAGE_STATUS = #{mileageStatus},
+			MILEAGE_SCORE = #{mileageScore},
+			APPROVE_DATE = SYSDATE
 		WHERE 
 			MILEAGE_SEQ = #{mileageSeq}
 	</update>
-	
+
+	<!-- 거절할 떄 사용 -->
+	<update id="updateMileageStatusR"
+			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+		UPDATE
+			TB_MILEAGE
+		SET
+			MILEAGE_STATUS = #{mileageStatus},
+			MILEAGE_REJECT = #{mileageReject},
+			APPROVE_DATE = SYSDATE
+		WHERE
+			MILEAGE_SEQ = #{mileageSeq}
+	</update>
 
 
 </mapper>

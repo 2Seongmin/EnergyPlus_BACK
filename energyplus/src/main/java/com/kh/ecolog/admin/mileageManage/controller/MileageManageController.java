@@ -4,13 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.kh.ecolog.admin.mileageManage.model.service.MileageManageService;
 import com.kh.ecolog.mileage.controller.MileageController;
@@ -44,14 +38,27 @@ public class MileageManageController {
 		
 	    return ResponseEntity.ok(mileage);
 	}
-	
-	
-	@PutMapping("/{mileageSeq}/status")
-	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String mileageStatus) {
-	    
-		mileageManageService.updateMileageStatus(mileageSeq, mileageStatus);
-	    return ResponseEntity.ok("상태가 업데이트되었습니다.");
+
+
+	@PostMapping("/{mileageSeq}/status")
+	public ResponseEntity<?> updateMileageStatusS(
+			@PathVariable Long mileageSeq,
+			@RequestBody MileageDTO mileageDTO) {
+
+		mileageDTO.setMileageSeq(mileageSeq);
+		mileageManageService.updateMileageStatusS(mileageDTO);
+		return ResponseEntity.ok("상태와 점수가 업데이트되었습니다.");
 	}
-	
-	
+
+	@PostMapping("/{mileageSeq}/statusReject")
+	public ResponseEntity<?> updateMileageStatusR(
+			@PathVariable Long mileageSeq,
+			@RequestBody MileageDTO mileageDTO) {
+
+		mileageDTO.setMileageSeq(mileageSeq);
+		mileageManageService.updateMileageStatusR(mileageDTO);
+		return ResponseEntity.ok("상태와 점수가 업데이트되었습니다.");
+	}
+
+
 }

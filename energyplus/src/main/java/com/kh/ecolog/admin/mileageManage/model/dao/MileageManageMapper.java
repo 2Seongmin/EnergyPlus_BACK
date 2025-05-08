@@ -14,7 +14,9 @@ public interface MileageManageMapper {
 	List<MileageDTO> findAllMileage(RowBounds rb);
 	
 	MileageDTO detailMileage(@Param("mileageSeq") Long mileageSeq);
-	
-	void updateMileageStatus(@Param("mileageSeq") Long mileageSeq, @Param("mileageStatus") String status);
+
+	void updateMileageStatusS(MileageDTO dto);
+
+	void updateMileageStatusR(MileageDTO dto);
 
 }

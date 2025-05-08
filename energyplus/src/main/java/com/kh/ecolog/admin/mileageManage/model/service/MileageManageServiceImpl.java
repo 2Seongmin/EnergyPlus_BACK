@@ -24,9 +24,9 @@ public class MileageManageServiceImpl implements MileageManageService {
 
 	// 관리자 권한
 	@Override
-	public List<MileageDTO> findAllMileage(int pageNo) {
-		int size = 5;
-		RowBounds rowBounds = new RowBounds(pageNo * size, size);
+	public List<MileageDTO> findAllMileage(int page) {
+		int size = 10;
+		RowBounds rowBounds = new RowBounds(page * size, size);
 			
 		return mileageManageMapper.findAllMileage(rowBounds);
 	}
@@ -36,11 +36,25 @@ public class MileageManageServiceImpl implements MileageManageService {
 			
 		return mileageManageMapper.detailMileage(mileageSeq);
 	}
-		
 
+
+	/* 마일리지 승인(적립) */
 	@Override
-	public void updateMileageStatus(Long mileageSeq, String mileageStatus) {
-			
-		mileageManageMapper.updateMileageStatus(mileageSeq, mileageStatus);
+	public void updateMileageStatusS(MileageDTO dto) {
+		dto.setMileageStatus("S");
+
+		if (dto.getMileageScore() == 0) {
+			System.out.println("포인트 값이 0입니다.");
 		}
+
+		mileageManageMapper.updateMileageStatusS(dto);
+	}
+
+	/* 마일리지 거부(적립 X) */
+	@Override
+	public void updateMileageStatusR(MileageDTO dto) {
+		dto.setMileageStatus("R");
+		mileageManageMapper.updateMileageStatusR(dto);
+	}
+
 }
