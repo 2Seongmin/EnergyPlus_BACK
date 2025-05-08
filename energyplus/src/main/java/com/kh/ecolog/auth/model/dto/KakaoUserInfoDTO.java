@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class KakaoUserInfoDTO {
 
-	private Long id; // 카카오에서 제공하ㄴ는 사용자 아이디
+	private Long id; // 카카오에서 제공하는 사용자 아이디
 	private String email;
 	private String nickname;
+	private String phoneNumber;
 	
 }
