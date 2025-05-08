@@ -8,7 +8,7 @@ import com.kh.ecolog.member.model.dto.MemberDTO;
 import com.kh.ecolog.member.model.vo.Member;
 
 @Mapper
-public interface MemberMapper {
+public interface MemberMapper {  
     
     @Insert("INSERT INTO TB_USER (USER_ID, GRADE_ID, USER_EMAIL, USER_PASSWORD, USER_NAME, USER_PHONE, ROLE, STATUS) " +
             "VALUES (SEQ_USER.NEXTVAL, #{gradeId}, #{userEmail}, #{userPassword}, #{userName}, #{userPhone}, #{role}, 'Y')")
