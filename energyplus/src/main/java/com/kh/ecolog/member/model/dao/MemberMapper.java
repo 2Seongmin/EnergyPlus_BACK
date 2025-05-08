@@ -55,5 +55,9 @@ public interface MemberMapper {
     @Update("UPDATE TB_USER SET MARKETING_AGREED=#{marketingAgreed} WHERE USER_ID=#{userId}")
     int updateMarketingAgreed(Long userId, String marketingAgreed);
     
+    
+    // OAuth2.0 카카오 회원 전화번호(옵션)
+    @Update("UPDATE TB_USER SET USER_PHONE = #{userPhone} WHERE USER_ID = #{userId}")
+    void updateMemberPhone(Member member);
 
 }

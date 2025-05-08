@@ -135,6 +135,7 @@ public class OAuthServiceImpl implements OAuthService {
                 Long id = jsonNode.get("id").asLong();
                 String email = null;
                 String nickname = null;
+                String phoneNumber = null;
                 
                 // 계정정보 추출
                 JsonNode kakaoAccountNode = jsonNode.get("kakao_account");
@@ -149,12 +150,22 @@ public class OAuthServiceImpl implements OAuthService {
                     if (profileNode != null && profileNode.has("nickname")) {
                         nickname = profileNode.get("nickname").asText();
                     }
+                    
+                    // 옵션에 전화번호정보 요청 추가
+                    if (kakaoAccountNode.has("phone_number")) {
+                        phoneNumber = kakaoAccountNode.get("phone_number").asText();
+                        // 카카오는 +82 10-1234-5678 형식으로 제공!! 
+                        phoneNumber = phoneNumber.replace("+82 ", "0"); // +82 10-1234-5678 -> 010-1234-5678로!!!
+                        phoneNumber = phoneNumber.replaceAll("-", ""); // 010-1234-5678 -> 01012345678
+                    }
+                    
                 }
                 
                 return KakaoUserInfoDTO.builder()
                         .id(id)
                         .email(email)
                         .nickname(nickname)
+                        .phoneNumber(phoneNumber)
                         .build();
                 
             } else {
@@ -205,6 +216,7 @@ public class OAuthServiceImpl implements OAuthService {
                 memberDTO.setUserEmail(kakaoUserInfo.getEmail());
                 memberDTO.setUserPassword(randomPassword); // 임시 비번
                 memberDTO.setUserName(kakaoUserInfo.getNickname());
+                memberDTO.setUserPhone(kakaoUserInfo.getPhoneNumber());
                 memberDTO.setRole("ROLE_USER");
                 memberDTO.setStatus("Y");
                 
@@ -214,6 +226,7 @@ public class OAuthServiceImpl implements OAuthService {
                         .userEmail(memberDTO.getUserEmail())
                         .userPassword(passwordEncoder.encode(memberDTO.getUserPassword()))
                         .userName(memberDTO.getUserName())
+                        .userPhone(kakaoUserInfo.getPhoneNumber())
                         .role(memberDTO.getRole())
                         .build();
                 
@@ -261,6 +274,15 @@ public class OAuthServiceImpl implements OAuthService {
                     .userName(kakaoUserInfo.getNickname())
                     .build();
             
+            // 전화번호가 있는 경우에만 업데이트
+            if (kakaoUserInfo.getPhoneNumber() != null && !kakaoUserInfo.getPhoneNumber().isEmpty()) {
+                updatedMember = Member.builder()
+                        .userId(memberDTO.getUserId())
+                        .userName(kakaoUserInfo.getNickname())
+                        .userPhone(kakaoUserInfo.getPhoneNumber())
+                        .build();
+            }
+            
             memberMapper.updateMemberName(updatedMember);
             
             // 업데이트된 회원 정보 다시 조회!!
@@ -279,6 +301,7 @@ public class OAuthServiceImpl implements OAuthService {
                 .userEmail(memberDTO.getUserEmail())
                 .userName(memberDTO.getUserName())
                 .userRole(memberDTO.getRole())
+                .userPhone(memberDTO.getUserPhone())
                 .isNewUser(isNewUser)
                 .build();
     }

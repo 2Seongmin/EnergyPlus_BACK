@@ -39,8 +39,11 @@ public class OAuthController {
     @GetMapping("/kakao/url")
     public ResponseEntity<?> getKakaoLoginUrl() {
         try {
-
-            String kakaoLoginUrl = baseUrl + "?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&response_type=code";
+            String kakaoLoginUrl = baseUrl + 
+                                  "?client_id=" + clientId + 
+                                  "&redirect_uri=" + redirectUri + 
+                                  "&response_type=code" + 
+                                  "&scope=account_email,profile_nickname,phone_number";
             
             return ResponseEntity.ok().body(Map.of("loginUrl", kakaoLoginUrl));
         } catch (Exception e) {
