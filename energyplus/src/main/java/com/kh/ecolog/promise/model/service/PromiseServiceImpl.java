@@ -26,6 +26,12 @@ public class PromiseServiceImpl implements PromiseService {
 		CustomUserDetails user = authService.getUserDetails();
 		Long userId = user.getUserId();
 		
+		// 이미 작성한 다짐이 있는지 확인
+	    PromiseDTO existing = promiseMapper.findByUserId(userId);
+	    if (existing != null) {
+	        throw new IllegalStateException("이미 등록된 다짐이 있습니다.");
+	    }
+		
 		Promise requestData = 
 				Promise.builder()
 				.userPromise(promise.getUserPromise())

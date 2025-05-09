@@ -208,5 +208,10 @@ public class MarketServiceImpl implements MarketService  {
 	        return result;
 	    }
 	
+//	 관리자용 신고 로직
+	 @Override
+	 public void hideMarket(Long marketNo) {
+		    marketMapper.hideMarket(marketNo, "Y");
+	}
 	
 }

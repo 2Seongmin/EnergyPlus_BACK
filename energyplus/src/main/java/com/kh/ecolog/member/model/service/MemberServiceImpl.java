@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.ecolog.exception.MemberEmailDuplicateException;
 import com.kh.ecolog.exception.UserNotFoundException;
 import com.kh.ecolog.member.model.dao.MemberMapper;
+import com.kh.ecolog.member.model.dto.MarketingAgreementDTO;
 import com.kh.ecolog.member.model.dto.MemberDTO;
 import com.kh.ecolog.member.model.vo.Member;
 import com.kh.ecolog.token.model.service.TokenService;
@@ -45,6 +46,18 @@ public class MemberServiceImpl implements MemberService {
 								   .build();
 		
 		memberMapper.signUp(memberValue);
+		
+//	    // 저장된 회원 정보 조회
+//	    MemberDTO savedMember = memberMapper.getMemberByMemberEmail(member.getUserEmail());
+//	    
+//	    // 마케팅 동의 정보가 있는 경우에만 저장
+//	    if (member.getMarketingAgreed() != null && member.getMarketingAgreed()) {
+//	        MarketingAgreementDTO agreementDTO = new MarketingAgreementDTO();
+//	        agreementDTO.setUserId(savedMember.getUserId());
+//	        agreementDTO.setMarketingAgreed("Y");
+//	        
+//	        memberMapper.saveMarketingAgreement(agreementDTO);
+//	    }
 		
 	}
 
@@ -106,5 +119,13 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 	}
+	
+    @Override
+    @Transactional
+    public boolean updateMarketingAgreed(Long userId, boolean marketingAgreed) {
+        String marketingAgreedValue = marketingAgreed ? "Y" : "N";
+        int result = memberMapper.updateMarketingAgreed(userId, marketingAgreedValue);
+        return result > 0;
+    }
 
 }

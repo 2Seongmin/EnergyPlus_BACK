@@ -1,0 +1,35 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.admin.marketManage.model.dao.MarketManageMapper">
+
+ <select id="findAllMarketsForAdmin" resultType="com.kh.ecolog.market.board.model.dto.MarketDTO">
+  SELECT 
+    M.MARKET_NO AS marketNo,
+    M.MARKET_TITLE AS marketTitle,
+    M.USER_ID AS userId,
+    U.USER_NAME AS userName,
+    M.MARKET_DATE AS marketDate,
+    M.MARKET_STATUS AS marketStatus,
+    M.IS_HIDDEN AS isHidden
+  FROM TB_MARKET M
+  JOIN TB_USER U ON M.USER_ID = U.USER_ID
+  ORDER BY M.MARKET_NO DESC
+</select>
+
+<select id="findMarketByNo" parameterType="long" resultType="com.kh.ecolog.market.board.model.dto.MarketDTO">
+  SELECT 
+    M.MARKET_NO AS marketNo,
+    M.MARKET_TITLE AS marketTitle,
+    M.MARKET_CONTENT AS marketContent,
+    M.MARKET_PRICE AS marketPrice,
+    M.MARKET_DATE AS marketDate,
+    M.MARKET_STATUS AS marketStatus,
+    M.IS_HIDDEN AS isHidden,
+    M.USER_ID AS userId,
+    U.USER_NAME AS userName
+  FROM TB_MARKET M
+  JOIN TB_USER U ON M.USER_ID = U.USER_ID
+  WHERE M.MARKET_NO = #{marketNo}
+</select>
+
+
+</mapper>

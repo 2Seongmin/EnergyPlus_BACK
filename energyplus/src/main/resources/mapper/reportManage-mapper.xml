@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.admin.marketManage.model.dao.ReportManageMapper">
+	<select id="findAllReports" resultType="com.kh.ecolog.admin.marketManage.model.dto.ReportManageDTO">
+	  SELECT
+	    mc.REPORT_ID AS reportId,
+	    m.MARKET_NO AS marketNo,
+	    m.MARKET_TITLE AS marketTitle,
+	    mc.REPORT_REASON AS reportReason,
+	    mc.REPORT_DATE AS reportDate,
+	    m.IS_HIDDEN AS isHidden
+	  FROM TB_MARKET_CNT mc
+	  JOIN TB_MARKET m ON mc.MARKET_NO = m.MARKET_NO
+	  ORDER BY mc.REPORT_DATE DESC
+	</select>
+	<select id="selectById" resultType="com.kh.ecolog.admin.marketManage.model.dto.ReportManageDTO">
+	  SELECT 
+	    R.REPORT_ID AS reportId,
+	    R.REPORT_REASON AS reportReason,
+	    R.REPORT_DATE AS reportDate,
+	    M.MARKET_NO AS marketNo,
+	    M.MARKET_TITLE AS marketTitle,
+	    M.MARKET_CONTENT AS marketContent,
+	    M.IS_HIDDEN AS isHidden,
+	    (SELECT COUNT(*) FROM TB_MARKET_CNT WHERE MARKET_NO = M.MARKET_NO) AS totalReportCount
+	  FROM TB_MARKET_CNT R
+	  JOIN TB_MARKET M ON R.MARKET_NO = M.MARKET_NO
+	  WHERE R.REPORT_ID = #{reportId}
+	</select>
+
+
+</mapper>

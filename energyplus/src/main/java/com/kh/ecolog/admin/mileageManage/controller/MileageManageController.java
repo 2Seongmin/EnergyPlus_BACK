@@ -42,7 +42,7 @@ public class MileageManageController {
 
 	@PostMapping("/{mileageSeq}/status")
 	public ResponseEntity<?> updateMileageStatusS(
-			@PathVariable Long mileageSeq,
+			@PathVariable("mileageSeq") Long mileageSeq,
 			@RequestBody MileageDTO mileageDTO) {
 
 		mileageDTO.setMileageSeq(mileageSeq);
@@ -52,7 +52,7 @@ public class MileageManageController {
 
 	@PostMapping("/{mileageSeq}/statusReject")
 	public ResponseEntity<?> updateMileageStatusR(
-			@PathVariable Long mileageSeq,
+			@PathVariable("mileageSeq") Long mileageSeq,
 			@RequestBody MileageDTO mileageDTO) {
 
 		mileageDTO.setMileageSeq(mileageSeq);

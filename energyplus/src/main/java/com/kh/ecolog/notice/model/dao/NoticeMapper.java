@@ -15,14 +15,8 @@ public interface NoticeMapper {
 
 	List<NoticeDTO> findAll (RowBounds rowBounds); // 전채 조회 
 
-	void save(Notice notice);
-	
 	NoticeDTO findById(Long noticeId);
 	
-	void update(NoticeDTO notice);
-	
-    void deleteById(@Param("noticeId") Long noticeId);
-    
     // 검색
     List<NoticeDTO> searchNotice(Map<String, Object> param, RowBounds rowBounds);
     

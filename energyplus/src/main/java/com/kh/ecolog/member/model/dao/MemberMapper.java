@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import com.kh.ecolog.member.model.dto.MarketingAgreementDTO;
 import com.kh.ecolog.member.model.dto.MemberDTO;
 import com.kh.ecolog.member.model.vo.Member;
 
@@ -41,5 +43,17 @@ public interface MemberMapper {
     // 비밀번호 업데이트
     @Update("UPDATE TB_USER SET USER_PASSWORD=#{password} WHERE USER_EMAIL=#{email}")
     int updatePassword(@Param("email") String email, @Param("password") String password);
+    
+    // 마케팅 동의 .. => 밑에 회원 테이블에 업데이트 시켰기에 굳이 안넣어도 될듯?
+//    @Insert("INSERT INTO TB_MARKETING_AGREEMENT (AGREEMENT_ID, USER_ID, MARKETING_AGREED) VALUES (SEQ_MARKETING_AGREEMENT.NEXTVAL, #{userId}, #{marketingAgreed})")
+//    int saveMarketingAgreement(MarketingAgreementDTO agreementDTO);
+//    
+//    @Select("SELECT AGREEMENT_ID agreementId, USER_ID userId, MARKETING_AGREED marketingAgreed, TO_CHAR(AGREEMENT_DATE, 'YYYY-MM-DD') agreementDate FROM TB_MARKETING_AGREEMENT WHERE USER_ID = #{userId}")
+//    MarketingAgreementDTO getMarketingAgreementByUserId(Long userId);
+    
+    // 마케팅 동의 정보 회운에 업데이트
+    @Update("UPDATE TB_USER SET MARKETING_AGREED=#{marketingAgreed} WHERE USER_ID=#{userId}")
+    int updateMarketingAgreed(Long userId, String marketingAgreed);
+    
 
 }

@@ -17,7 +17,7 @@
 	     WHERE 
 	     	   USER_ID = #{userId}
 	       AND
-	           MILEAGE_STATUS = 'Y'
+	           MILEAGE_STATUS = 'S'
 	     GROUP 
 	        BY
       		   USER_ID

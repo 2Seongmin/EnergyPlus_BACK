@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.ecolog.market.board.model.dto.MarketDTO;
@@ -29,4 +30,8 @@ public interface MarketMapper {
 	int countMarketAll(Long userId); 
 	List<MarketDTO> searchMarket(Map<String, Object> param, RowBounds rowBounds);
 	int countMarketSearch(Map<String, Object> param);
+	
+	// 관리자 신고글 숨김 처리
+	void hideMarket(@Param("marketNo") Long marketNo, @Param("hidden") String hidden);
+
 }

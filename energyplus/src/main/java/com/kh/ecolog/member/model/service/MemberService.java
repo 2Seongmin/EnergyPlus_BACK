@@ -39,5 +39,12 @@ public interface MemberService {
 	 */
 	void resetPassword(String email, String newPassword);
 	
+    /**
+     * 마케팅 정보 수신 동의 상태 업데이트
+     * @param userId 회원 ID
+     * @param marketingAgreed 마케팅 동의 여부
+     * @return 업데이트 성공 여부
+     */
+    boolean updateMarketingAgreed(Long userId, boolean marketingAgreed);
 }
 

@@ -24,10 +24,9 @@ public interface MarketService {
 	Map<String, Object> searchMarkets(int pageNo, String keyword);
 
 	MarketDTO findMarketByNo(Long marketNo);
-
-
-
-
 	
+	// 관리자용 신고 처리 로직
+	void hideMarket(Long marketNo);
+
 	
 }

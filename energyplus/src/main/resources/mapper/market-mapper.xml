@@ -93,28 +93,37 @@
     </sql>
 
     <!-- 전체 게시글 목록 -->
-   <select id="findAllMarkets" resultType="MarketDTO">
-    SELECT 
-        M.MARKET_NO,
-        M.USER_ID,
-        U.USER_NAME,
-        M.MARKET_TITLE,
-        M.MARKET_CONTENT,
-        M.MARKET_DATE,
-        M.MARKET_STATUS,
-        M.MARKET_PRICE,
-        <include refid="marketStatusLabel" />,
-        (
-            SELECT MI.MARKET_IMG_URL
-            FROM TB_MARKET_IMG MI
-            WHERE MI.MARKET_NO = M.MARKET_NO
-              AND MI.IMG_ORDER = 1
-            FETCH FIRST 1 ROWS ONLY
-        ) AS thumbnailUrl
-    FROM TB_MARKET M
-    JOIN TB_USER U ON M.USER_ID = U.USER_ID
-    ORDER BY M.MARKET_NO DESC
+	<select id="findAllMarkets" resultType="MarketDTO">
+	  SELECT 
+	      M.MARKET_NO,
+	      M.USER_ID,
+	      U.USER_NAME,
+	      M.MARKET_TITLE,
+	      M.MARKET_CONTENT,
+	      M.MARKET_DATE,
+	      M.MARKET_STATUS,
+	      M.MARKET_PRICE,
+	      <include refid="marketStatusLabel" />,
+	      (
+	          SELECT MI.MARKET_IMG_URL
+	          FROM TB_MARKET_IMG MI
+	          WHERE MI.MARKET_NO = M.MARKET_NO
+	            AND MI.IMG_ORDER = 1
+	          FETCH FIRST 1 ROWS ONLY
+	      ) AS thumbnailUrl
+	  FROM TB_MARKET M
+	  JOIN TB_USER U ON M.USER_ID = U.USER_ID
+	  WHERE M.IS_HIDDEN = 'N'
+	    AND U.USER_NAME IS NOT NULL
+	  ORDER BY 
+	      CASE M.MARKET_STATUS 
+	        WHEN 'N' THEN 0
+	        ELSE 1
+	      END,
+	      M.MARKET_NO DESC
 	</select>
+
+
 
     <!-- 게시글 번호로 조회 -->
     <select id="selectMarketByNo" parameterType="long" resultType="MarketDTO">
@@ -183,5 +192,12 @@
 		 AND
 	  		 MARKET_TITLE LIKE '%' || #{keyword} || '%'
 	</select>
+	
+	<!-- 관리자 신고글 숨김 -->
+	<update id="hideMarket">
+	  UPDATE TB_MARKET
+	  SET IS_HIDDEN = #{hidden}
+	  WHERE MARKET_NO = #{marketNo}
+	</update>
 
 </mapper>

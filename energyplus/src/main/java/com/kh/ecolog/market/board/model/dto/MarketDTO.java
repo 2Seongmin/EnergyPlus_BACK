@@ -30,4 +30,5 @@ public class MarketDTO {
     private List<MarketImageDTO> imageList;
     private List<String> keepImageUrls;
     private Boolean isMine; 
+    private String isHidden;
 }

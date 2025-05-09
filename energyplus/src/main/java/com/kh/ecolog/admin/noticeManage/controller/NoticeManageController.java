@@ -45,6 +45,7 @@ public class NoticeManageController {
 	public ResponseEntity<List<NoticeManageDTO>> findAll(
 			@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "keyword", required = false) String keyword){
+		log.info("123");
 		return ResponseEntity.ok(noticeManageService.findAll(page, keyword));
 	}
 

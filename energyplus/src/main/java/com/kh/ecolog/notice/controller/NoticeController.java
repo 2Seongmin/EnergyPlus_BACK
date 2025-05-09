@@ -32,13 +32,6 @@ public class NoticeController {
 	
 	private final NoticeService noticeService;
 
-	// 공지 등록
-	@PostMapping
-	public ResponseEntity<?> save(@Valid @RequestBody NoticeDTO notice) {
-		noticeService.save(notice);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
-
 	// 전체 공지 목록 (+ 페이징)
 	@GetMapping
 	public ResponseEntity<List<NoticeDTO>> findAll(
@@ -47,28 +40,13 @@ public class NoticeController {
 		return ResponseEntity.ok(noticeService.findAll(page, keyword));
 	}
 
-	// 특정 공지 상세 보기
+	// 특정 공지 상세 보기   
 	@GetMapping("/{id}")
 	public ResponseEntity<NoticeDTO> findById(@PathVariable("id") @Min(1) Long noticeId) {
 		return ResponseEntity.ok(noticeService.findById(noticeId));
 	}
 
-	// 공지 수정
-	@PutMapping("/{id}")
-	public ResponseEntity<NoticeDTO> update(@PathVariable("id") Long noticeId,
-											@RequestBody NoticeDTO notice) {
-		notice.setNoticeId(noticeId);
-		return ResponseEntity.ok(noticeService.update(notice));
-	}
-
-	// 공지 삭제
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteById(@PathVariable("id") Long noticeId) {
-		noticeService.deleteById(noticeId);
-		return ResponseEntity.ok().build();
-	}
-
-	// 페이지 수 조회 
+	// 페이지 수  조회   
 	@GetMapping("/pages")
 	public ResponseEntity<Integer> getPageCount(@RequestParam(name = "keyword", required = false) String keyword) {
 		return ResponseEntity.ok(noticeService.getTotalPages(keyword));

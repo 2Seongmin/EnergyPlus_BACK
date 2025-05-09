@@ -21,20 +21,6 @@ public class NoticeServiceImpl implements NoticeService{
 	
 	private final NoticeMapper noticeMapper;
 	
-	@Override
-    public void save(NoticeDTO notice) {
-        // 로그인 기능 미적용 상태이므로 userId 임의 지정
-        Long userId = 1L;
-
-        Notice requestData = Notice.builder()
-                .noticeTitle(notice.getNoticeTitle())
-                .noticeContent(notice.getNoticeContent())
-                .userId(userId)
-                .build();
-
-        noticeMapper.save(requestData);
-    }
-
     @Override
     public List<NoticeDTO> findAll(int pageNo, String keyword) {
         int size = 10;
@@ -58,17 +44,6 @@ public class NoticeServiceImpl implements NoticeService{
         return notice;
     }
 
-    @Override
-    public NoticeDTO update(NoticeDTO notice) {
-        noticeMapper.update(notice);
-        return notice;
-    }
-
-    @Override
-    public void deleteById(Long noticeId) {
-        noticeMapper.deleteById(noticeId);
-    }
-	
     // 페이지 수 계산 
     @Override
     public int getTotalPages(String keyword) {
