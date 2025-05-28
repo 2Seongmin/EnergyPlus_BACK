@@ -31,19 +31,13 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     public void saveChallenge(ChallengeDTO challenge, MultipartFile file) {
     	
-    	
     	CustomUserDetails user = authService.getUserDetails();
         Long userId = user.getUserId();
-
-        
-        
         Challenge requestData;
-
       
         if (file != null && !file.isEmpty()) {
             
             String fileUrl = fileService.store(file);
-           
             requestData = Challenge.builder()
                     .challengeTitle(challenge.getChallengeTitle())
                     .challengeContent(challenge.getChallengeContent())
@@ -52,7 +46,6 @@ public class ChallengeServiceImpl implements ChallengeService {
                     .challengeStatus("N")
                     .build();
         } else {
-            
             requestData = Challenge.builder()
                     .challengeTitle(challenge.getChallengeTitle())
                     .challengeContent(challenge.getChallengeContent())
@@ -61,12 +54,8 @@ public class ChallengeServiceImpl implements ChallengeService {
                     .build();
         }
         challengeMapper.saveChallenge(requestData);
-      
     }
     	
-    
-    
-
     // 챌린지 목록 조회 
     @Override
     public List<ChallengeDTO> findAllChallenge(int pageNo, String keyword) {
@@ -81,7 +70,6 @@ public class ChallengeServiceImpl implements ChallengeService {
     	
         return challengeMapper.findAllChallenge(rowBounds);
     }
- 
     
     // 챌린지 상세 보기 
     @Override
@@ -124,8 +112,14 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         return (int) Math.ceil((double) totalCount / size);
     }
-    
-    
+
+    // 작성자 확인 
+    @Override
+    public boolean isOwner(Long challengeSeq, Long userId) {
+        Long writerId = challengeMapper.findWriterIdByChallengeSeq(challengeSeq);
+        return writerId != null && writerId.equals(userId);
+    }
+
     
     
 }

@@ -1,0 +1,127 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.ecolog.admin.challengeManage.model.dao.ChallengeManageMapper">
+
+  <!-- 1. 전체 챌린지 목록 조회 -->
+  <select id="selectAllChallenges" resultType="com.kh.ecolog.admin.challengeManage.model.dto.ChallengeManageDTO">
+    SELECT 
+      C.CHALLENGE_SEQ,
+      C.CHALLENGE_TITLE,
+      U.USER_NAME,
+      C.CHALLENGE_STATUS,
+      P.MILEAGE_REWARDED
+    FROM
+      TB_CHALLENGE C
+    JOIN
+      TB_USER U ON C.USER_ID = U.USER_ID
+    LEFT JOIN
+      TB_CHALLENGE_PARTICIPATION P ON C.CHALLENGE_SEQ = P.CHALLENGE_SEQ
+    ORDER BY
+      C.CHALLENGE_SEQ DESC
+  </select>
+
+  <!-- 2. 챌린지 상세 조회 -->
+  <select id="selectChallengeDetail" resultType="com.kh.ecolog.admin.challengeManage.model.dto.ChallengeManageDTO">
+    SELECT
+      C.CHALLENGE_SEQ,
+      C.CHALLENGE_TITLE,
+      C.CHALLENGE_CONTENT,
+      C.USER_ID,
+      C.CHALLENGE_IMG,
+      U.USER_NAME,
+      C.CHALLENGE_STATUS,
+      P.MILEAGE_REWARDED,
+      P.REWARDED_DATE,
+      P.PARTICIPATION_SEQ,
+      P.REJECT_REASON
+    FROM
+      TB_CHALLENGE C
+    LEFT JOIN
+      TB_USER U ON C.USER_ID = U.USER_ID
+    LEFT JOIN
+      TB_CHALLENGE_PARTICIPATION P ON C.CHALLENGE_SEQ = P.CHALLENGE_SEQ
+    WHERE
+      C.CHALLENGE_SEQ = #{challengeSeq}
+  </select>
+
+  <!-- 3. 챌린지 승인 처리 -->
+  <update id="approveChallenge">
+    UPDATE TB_CHALLENGE
+    SET CHALLENGE_STATUS = 'Y'
+    WHERE CHALLENGE_SEQ = #{challengeSeq}
+  </update>
+
+  <!-- 4. 마일리지 지급 내역 업데이트 -->
+  <update id="updateMileageRewarded">
+    UPDATE TB_CHALLENGE_PARTICIPATION
+    SET 
+      MILEAGE_REWARDED = #{mileage},
+      REWARDED_DATE = SYSDATE
+    WHERE CHALLENGE_SEQ = #{challengeSeq}
+  </update>
+
+  <!-- 5. 챌린지 반려 처리 -->
+  <update id="rejectChallenge">
+    UPDATE TB_CHALLENGE
+    SET CHALLENGE_STATUS = 'R'
+    WHERE CHALLENGE_SEQ = #{challengeSeq}
+  </update>
+
+  <!-- 6. 반려 사유 업데이트 -->
+  <update id="updateRejectReason">
+    UPDATE TB_CHALLENGE
+    SET REJECT_REASON = #{reason}
+    WHERE CHALLENGE_SEQ = #{challengeSeq}
+  </update>
+
+  <!-- 7. 참여 기록 없을 경우 기본값 삽입 -->
+  <insert id="insertParticipationIfMissing">
+    INSERT INTO TB_CHALLENGE_PARTICIPATION (
+      PARTICIPATION_SEQ,
+      CHALLENGE_SEQ,
+      PARTICIPATION_DATE
+    )
+    SELECT 
+      SEQ_PARTICIPATION.NEXTVAL, 
+      #{challengeSeq}, 
+      SYSDATE
+    FROM DUAL
+    WHERE NOT EXISTS (
+      SELECT 1 
+      FROM TB_CHALLENGE_PARTICIPATION
+      WHERE CHALLENGE_SEQ = #{challengeSeq}
+    )
+  </insert>
+
+  <!-- 8. 챌린지 검색 결과 개수 -->
+  <select id="countSearch" parameterType="map" resultType="int">
+    SELECT COUNT(*)
+    FROM TB_CHALLENGE
+    WHERE CHALLENGE_TITLE LIKE '%' || #{keyword} || '%'
+  </select>
+
+  <!-- 9. 챌린지 전체 개수 -->
+  <select id="countAll" resultType="int">
+    SELECT COUNT(*)
+    FROM TB_CHALLENGE
+  </select>
+
+  <!-- 10. 챌린지 검색 목록 조회 -->
+  <select id="searchChallenges" resultType="com.kh.ecolog.admin.challengeManage.model.dto.ChallengeManageDTO">
+    SELECT 
+      C.CHALLENGE_SEQ,
+      C.CHALLENGE_TITLE,
+      U.USER_NAME,
+      C.CHALLENGE_STATUS,
+      P.MILEAGE_REWARDED
+    FROM
+      TB_CHALLENGE C
+    JOIN TB_USER U ON C.USER_ID = U.USER_ID
+    LEFT JOIN TB_CHALLENGE_PARTICIPATION P ON C.CHALLENGE_SEQ = P.CHALLENGE_SEQ
+    WHERE C.CHALLENGE_TITLE LIKE '%' || #{keyword} || '%'
+    ORDER BY C.CHALLENGE_SEQ DESC
+  </select>
+
+</mapper>

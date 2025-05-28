@@ -15,7 +15,7 @@ public interface MarketService {
 	
 	void updateMarket(MarketDTO dto, List<MultipartFile> images);
 
-	void deleteMarket(Long marketNo, Long userId);
+	void deleteMarket(Long marketNo);
 	
 	void deleteImagesByMarketNo(Long marketNo);
 	

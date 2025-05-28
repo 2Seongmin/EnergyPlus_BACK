@@ -51,24 +51,31 @@ public class SecurityConfigure {
             .csrf(config -> config.disable())
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
+                
+
             	    // 인증 없이 허용
             	    .requestMatchers("/auth/**", "/oauth2/**").permitAll()
-            	    .requestMatchers(HttpMethod.GET, "/admin/cardnews", "/admin/cardnews/**").permitAll()
-            	    .requestMatchers("/admin/cardnews/list").permitAll()
-
+            	    // 비로그인 포함 모두 조회 가능
+            	    .requestMatchers(HttpMethod.GET, "/admin/cardnews/**").permitAll()
+            	 
+      
             	    // 관리자 - 마켓 게시글 관리
             	    .requestMatchers(HttpMethod.PUT, "/admin/market/hide/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.GET, "/admin/market/**").hasAuthority("ROLE_ADMIN")
+            	    .requestMatchers(HttpMethod.PUT, "/admin/market/report/hide/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.PUT, "/admin/market/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.DELETE, "/admin/market/**").hasAuthority("ROLE_ADMIN")
 
-            	    // 카드뉴스
+            	    // 관리자만 등록/수정/삭제 가능
             	    .requestMatchers(HttpMethod.POST, "/admin/cardnews/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.PUT, "/admin/cardnews/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.DELETE, "/admin/cardnews/**").hasAuthority("ROLE_ADMIN")
+                                   
+                    // 관리자 - 챌린지
+                    .requestMatchers("/admin/challenges/**").hasAuthority("ROLE_ADMIN")
 
             	    // 관리자 전체
-            	    .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN") // 항상 마지막!
+            	    .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
 
             	    // 일반 인증
             	    .requestMatchers(HttpMethod.DELETE, "/members/withdrawal").authenticated()

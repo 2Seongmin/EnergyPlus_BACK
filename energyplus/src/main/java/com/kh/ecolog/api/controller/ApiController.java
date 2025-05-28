@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import com.kh.ecolog.api.model.dto.CarbonDTO;
 import com.kh.ecolog.api.model.dto.ZerostoreDTO;
 
 
@@ -46,4 +46,10 @@ public class ApiController {
 		String responseData = apiService.requestEnergyUsage2(pageNo);
 		return ResponseEntity.ok(responseData);
 	}
+	
+	@GetMapping("/carbon")
+	public ResponseEntity<List<CarbonDTO>> getCarbonList() {
+		List<CarbonDTO> responseData = apiService.requestGetCarbon();
+        return ResponseEntity.ok(responseData);
+    }
 }

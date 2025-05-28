@@ -24,58 +24,63 @@
       #{cardNewsImgUrl}
     )
   </insert>
-  
-	<select id="selectAllCardNews" resultType="CardNewsDTO">
-	  SELECT 
-	    CARDNEWS_NO cardNewsNo,
-	    CARDNEWS_TITLE cardNewsTitle,
-	    CARDNEWS_CONTENT cardNewsContent,
-	    CARDNEWS_DATE cardNewsDate,
-	    USER_ID userId,
-	    CARDNEWS_IMG_URL cardNewsImgUrl
-	  FROM TB_CARDNEWS
-	  ORDER BY CARDNEWS_NO DESC
-	</select>
 
-	<select id="selectCardNewsByNo" parameterType="long" resultType="CardNewsDTO">
-	  SELECT
-	    CARDNEWS_NO cardNewsNo,
-	    CARDNEWS_TITLE cardNewsTitle,
-	    CARDNEWS_CONTENT cardNewsContent,
-	    CARDNEWS_DATE cardNewsDate,
-	    USER_ID userId,
-	    CARDNEWS_IMG_URL cardNewsImgUrl
-	  FROM TB_CARDNEWS
-	  WHERE CARDNEWS_NO = #{id}
-	</select>
-	
-	<select id="mainCardNews" resultType="com.kh.ecolog.admin.cardnews.model.dto.CardNewsDTO">
-	  SELECT 
-	    CARDNEWS_NO cardNewsNo,
-	    CARDNEWS_TITLE cardNewsTitle,
-	    CARDNEWS_CONTENT cardNewsContent,
-	    CARDNEWS_DATE cardNewsDate,
-	    USER_ID userId,
-	    CARDNEWS_IMG_URL cardNewsImgUrl
-	  FROM TB_CARDNEWS
-	  ORDER BY CARDNEWS_NO DESC
-	  FETCH FIRST 3 ROWS ONLY
-	</select>
-	
-	<update id="updateCardNews" parameterType="com.kh.ecolog.admin.cardnews.model.dto.CardNewsDTO">
-    	UPDATE TB_CARDNEWS
-	    SET 
-	        CARDNEWS_TITLE = #{cardNewsTitle},
-	        CARDNEWS_CONTENT = #{cardNewsContent},
-	        CARDNEWS_IMG_URL = #{cardNewsImgUrl},
-	        USER_ID = #{userId},
-	        CARDNEWS_DATE = #{cardNewsDate}
-	    WHERE CARDNEWS_NO = #{cardNewsNo}
-	</update>
-	
-	<delete id="deleteCardNews" parameterType="long">
-	    DELETE FROM TB_CARDNEWS
-	    WHERE CARDNEWS_NO = #{cardnewsNo}
-	</delete>
+  <!-- 전체 조회 -->
+  <select id="selectAllCardNews" resultType="com.kh.ecolog.admin.cardnews.model.dto.CardNewsDTO">
+    SELECT 
+      CARDNEWS_NO AS cardNewsNo,
+      CARDNEWS_TITLE AS cardNewsTitle,
+      CARDNEWS_CONTENT AS cardNewsContent,
+      CARDNEWS_DATE AS cardNewsDate,
+      USER_ID AS userId,
+      CARDNEWS_IMG_URL AS cardNewsImgUrl
+    FROM TB_CARDNEWS
+    ORDER BY CARDNEWS_NO DESC
+  </select>
+
+  <!-- 단건 조회 -->
+  <select id="selectCardNewsByNo" parameterType="long" resultType="com.kh.ecolog.admin.cardnews.model.dto.CardNewsDTO">
+    SELECT
+      CARDNEWS_NO AS cardNewsNo,
+      CARDNEWS_TITLE AS cardNewsTitle,
+      CARDNEWS_CONTENT AS cardNewsContent,
+      CARDNEWS_DATE AS cardNewsDate,
+      USER_ID AS userId,
+      CARDNEWS_IMG_URL AS cardNewsImgUrl
+    FROM TB_CARDNEWS
+    WHERE CARDNEWS_NO = #{id}
+  </select>
+
+  <!-- 메인 3개만 조회 -->
+  <select id="mainCardNews" resultType="com.kh.ecolog.admin.cardnews.model.dto.CardNewsDTO">
+    SELECT 
+      CARDNEWS_NO AS cardNewsNo,
+      CARDNEWS_TITLE AS cardNewsTitle,
+      CARDNEWS_CONTENT AS cardNewsContent,
+      CARDNEWS_DATE AS cardNewsDate,
+      USER_ID AS userId,
+      CARDNEWS_IMG_URL AS cardNewsImgUrl
+    FROM TB_CARDNEWS
+    ORDER BY CARDNEWS_NO DESC
+    FETCH FIRST 3 ROWS ONLY
+  </select>
+
+  <!-- 수정 -->
+  <update id="updateCardNews" parameterType="com.kh.ecolog.admin.cardnews.model.dto.CardNewsDTO">
+    UPDATE TB_CARDNEWS
+    SET 
+      CARDNEWS_TITLE = #{cardNewsTitle},
+      CARDNEWS_CONTENT = #{cardNewsContent},
+      CARDNEWS_IMG_URL = #{cardNewsImgUrl},
+      USER_ID = #{userId},
+      CARDNEWS_DATE = #{cardNewsDate}
+    WHERE CARDNEWS_NO = #{cardNewsNo}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="deleteCardNews" parameterType="long">
+    DELETE FROM TB_CARDNEWS
+    WHERE CARDNEWS_NO = #{cardnewsNo}
+  </delete>
 
 </mapper>

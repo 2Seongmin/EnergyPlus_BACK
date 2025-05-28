@@ -86,7 +86,6 @@
 	  	CHALLENGE_TITLE = #{challengeTitle},
 	  	CHALLENGE_CONTENT = #{challengeContent},
 	  	CHALLENGE_IMG = #{challengeImg}
-	  
 	  WHERE
 	  	CHALLENGE_SEQ = #{challengeSeq} 
 	  </update>
@@ -136,6 +135,17 @@
 	  	TB_CHALLENGE
 	
 	</select>
+	
+	<!-- 글 작성자 확인용 -->
+	<select id="findWriterIdByChallengeSeq" parameterType="long" resultType="long">
+	  SELECT
+	  	USER_ID
+	  FROM
+	  	TB_CHALLENGE
+	  WHERE
+	  	CHALLENGE_SEQ = #{challengeSeq}
+	</select>
+
 
 
 	

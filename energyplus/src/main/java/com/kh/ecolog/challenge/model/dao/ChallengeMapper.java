@@ -29,5 +29,7 @@ public interface ChallengeMapper {
     
     int countSearch(Map<String, Object> param);
     
+    Long findWriterIdByChallengeSeq(Long challengeSeq); // 작성자인지 확인 (userId 비교) 
+    
     
 }

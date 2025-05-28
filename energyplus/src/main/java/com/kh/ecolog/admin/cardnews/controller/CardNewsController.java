@@ -20,10 +20,12 @@ import com.kh.ecolog.admin.cardnews.model.service.CardNewsService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/admin/cardnews")
 @RequiredArgsConstructor
+@Slf4j
 public class CardNewsController {
 	
 	private final CardNewsService cardNewsService;
@@ -48,7 +50,9 @@ public class CardNewsController {
 	
 	@GetMapping("/main")
 	public ResponseEntity<List<CardNewsDTO>> getMainCardNews() {
-		List<CardNewsDTO> cardNewsList = cardNewsService.mainCardNews();
+	    log.info("✅ 카드뉴스 메인 요청 들어옴");
+	    List<CardNewsDTO> cardNewsList = cardNewsService.mainCardNews();
+	    log.info("✅ 받아온 카드뉴스 개수: {}", cardNewsList.size());
 	    return ResponseEntity.ok(cardNewsList);
 	}
 

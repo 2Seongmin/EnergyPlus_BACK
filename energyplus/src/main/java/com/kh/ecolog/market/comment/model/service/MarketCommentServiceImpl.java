@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.ecolog.auth.model.vo.CustomUserDetails;
 import com.kh.ecolog.auth.util.SecurityUtil;
@@ -81,4 +82,15 @@ public class MarketCommentServiceImpl implements MarketCommentService  {
 
 	    commentMapper.deleteComment(commentNo);
 	}
+	
+	 @Transactional
+	 @Override
+	 public void deleteCommentAndReplies(Long commentNo) {
+		 	commentMapper.deleteCommentReportsByCommentNo(commentNo); 
+	        // 1. 대댓글 먼저 삭제
+	        commentMapper.deleteRepliesByCommentNo(commentNo);
+
+	        // 2. 원댓글 삭제
+	        commentMapper.deleteComment(commentNo);
+	    }
 }

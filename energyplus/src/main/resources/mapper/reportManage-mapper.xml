@@ -29,6 +29,17 @@
 	  JOIN TB_MARKET M ON R.MARKET_NO = M.MARKET_NO
 	  WHERE R.REPORT_ID = #{reportId}
 	</select>
-
+	<!-- 신고 삭제 -->
+	<delete id="deleteById" parameterType="long">
+	  DELETE FROM TB_MARKET_CNT
+	  WHERE REPORT_ID = #{reportId}
+	</delete>
+	
+	<!-- 마켓 게시글 숨김 처리 -->
+	<update id="markMarketAsHidden" parameterType="long">
+	  UPDATE TB_MARKET
+	  SET IS_HIDDEN = 'Y'
+	  WHERE MARKET_NO = #{marketNo}
+	</update>
 
 </mapper>

@@ -7,15 +7,17 @@
 	<select id="findByUserId" 
 			resultType="TotalMileDTO">
 	    SELECT
-		       USER_MILEAGE_SEQ as userMileageSeq
-			 , USER_ID as userId
-			 , TOTAL_SAVE as totalSave
-			 , TOTAL_USE as totalUse
-			 , TOTAL_MILEAGE as totalMileage
+			   USER_ID as userId
+			 , SUM(MILEAGE_SCORE) as totalScore
 	      FROM 
-	           TB_USER_MILEAGE
+	           TB_MILEAGE
 	     WHERE 
 	     	   USER_ID = #{userId}
+	       AND
+	       	   MILEAGE_STATUS = 'S'
+	     GROUP 
+	        BY
+      		   USER_ID
 	</select>
 	
 	

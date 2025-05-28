@@ -18,7 +18,13 @@ public interface MarketCommentMapper {
 	
 	void updateComment(MarketCommentDTO comment);
 	
-	public void deleteComment(Long commentNo);
+	void deleteCommentReportsByCommentNo(Long commentNo);
+	
+	void deleteRepliesByCommentNo(Long commentNo);
+	
+    void deleteComment(Long commentNo);
 
 	MarketCommentDTO selectCommentByNo(Long commentNo);
+	
+	
 }

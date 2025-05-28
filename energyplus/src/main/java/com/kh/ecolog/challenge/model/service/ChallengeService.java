@@ -20,5 +20,7 @@ public interface ChallengeService {
     ChallengeDTO updateChallenge(ChallengeDTO challenge, MultipartFile file); // 챌린지 수정 
     
     int getTotalPages(String keyword);
+    
+    boolean isOwner(Long challengeSeq, Long userId); // 글 작성자인지 확인
 
 }

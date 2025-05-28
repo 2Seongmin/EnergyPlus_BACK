@@ -2,99 +2,52 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.kh.ecolog.notice.model.dao.NoticeMapper">
-	  
 
-	<select id="findAll" resultType="NoticeDTO">
-        SELECT 
-            NOTICE_ID as noticeId,
-            NOTICE_TITLE as noticeTitle,
-            NOTICE_DATE as noticeDate
-        FROM
-        	TB_NOTICE
-        ORDER BY
-        	NOTICE_DATE DESC
-    </select>
-    
-    
-  
-	<select id="findById" resultType="NoticeDTO" parameterType="long">
-		  SELECT 
-		    NOTICE_ID AS noticeId,
-		    NOTICE_TITLE AS noticeTitle,
-		    NOTICE_CONTENT AS noticeContent,
-		    NOTICE_DATE AS noticeDate,
-		    USER_ID AS userId
-		  FROM
-		  	TB_NOTICE
-		  WHERE
-		  	NOTICE_ID = #{noticeId}
-	</select>
-	
-	<select id="searchNotice" resultType="NoticeDTO" parameterType="map">
-		SELECT 
-			    NOTICE_ID AS noticeId,
-			    NOTICE_TITLE AS noticeTitle,
-			    NOTICE_DATE AS noticeDate
-		FROM
-			  	TB_NOTICE
-		WHERE
-				NOTICE_TITLE LIKE '%' || #{keyword} || '%'
-		ORDER BY
-				NOTICE_ID DESC
-	</select>
-  
-  
-	<select id="countAll" resultType="int">
-		SELECT 
-			COUNT(*)
-		FROM
-			TB_NOTICE
-	</select>
-	
-	
-	<select id="countSearch" parameterType="map" resultType="int">
-		SELECT
-			COUNT(*) 
-		FROM
-			TB_NOTICE
-		WHERE
-			NOTICE_TITLE LIKE '%' || #{keyword} || '%'
-	</select>
+<mapper namespace="com.kh.ecolog.notice.model.dao.NoticeMapper">
 
-  
-  
-  
-  
-  </mapper>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  <!-- 전체 공지사항 조회 (페이징 처리용) -->
+  <select id="findAll" resultType="NoticeDTO">
+    SELECT 
+      NOTICE_ID AS noticeId,
+      NOTICE_TITLE AS noticeTitle,
+      NOTICE_DATE AS noticeDate
+    FROM TB_NOTICE
+    ORDER BY NOTICE_DATE DESC
+  </select>
+
+  <!-- 공지사항 검색 -->
+  <select id="searchNotice" resultType="NoticeDTO" parameterType="map">
+    SELECT 
+      NOTICE_ID AS noticeId,
+      NOTICE_TITLE AS noticeTitle,
+      NOTICE_DATE AS noticeDate
+    FROM TB_NOTICE
+    WHERE NOTICE_TITLE LIKE '%' || #{keyword} || '%'
+    ORDER BY NOTICE_ID DESC
+  </select>
+
+ <!-- 공지사항 상세 조회 -->
+  <select id="findById" resultType="NoticeDTO" parameterType="long">
+    SELECT 
+      NOTICE_ID AS noticeId,
+      NOTICE_TITLE AS noticeTitle,
+      NOTICE_CONTENT AS noticeContent,
+      NOTICE_DATE AS noticeDate,
+      USER_ID AS userId
+    FROM TB_NOTICE
+    WHERE NOTICE_ID = #{noticeId}
+  </select>
+
+  <!-- 전체 공지사항 개수 -->
+  <select id="countAll" resultType="int">
+    SELECT COUNT(*) FROM TB_NOTICE
+  </select>
+
+  <!-- 검색 결과 공지사항 개수 -->
+  <select id="countSearch" parameterType="map" resultType="int">
+    SELECT COUNT(*)
+    FROM TB_NOTICE
+    WHERE NOTICE_TITLE LIKE '%' || #{keyword} || '%'
+  </select>
+
+</mapper>

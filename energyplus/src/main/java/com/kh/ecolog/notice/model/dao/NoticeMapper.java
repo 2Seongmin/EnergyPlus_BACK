@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.ecolog.notice.model.dto.NoticeDTO;
-import com.kh.ecolog.notice.model.vo.Notice;
 
 @Mapper
 public interface NoticeMapper {

@@ -14,4 +14,5 @@ public class Challenge {
     String challengeStatus;
     Long   userId;
     String challengeImg;
+    String userName;
 }

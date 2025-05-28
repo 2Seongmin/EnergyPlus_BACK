@@ -2,23 +2,15 @@ package com.kh.ecolog.market.board.model.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
 
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.ecolog.auth.model.vo.CustomUserDetails;
-import com.kh.ecolog.auth.service.AuthService;
 import com.kh.ecolog.auth.util.SecurityUtil;
 import com.kh.ecolog.file.service.FileService;
 import com.kh.ecolog.market.board.model.dao.MarketMapper;
@@ -35,15 +27,17 @@ public class MarketServiceImpl implements MarketService  {
 	private final MarketMapper marketMapper;
 	private final FileService fileService;
 	
-	
-	private void checkUserAuthorization(Long writerUserId) {
-	    Long currentUserId = SecurityUtil.getCurrentUserId();
-	    if (writerUserId == null) {
-	        throw new RuntimeException("작성자가 존재하지 않습니다.");
-	    }
-	    if (!writerUserId.equals(currentUserId)) {
-	        throw new RuntimeException("권한이 없습니다.");
-	    }
+	@Override
+	public void insertMarket(MarketDTO dto, List<MultipartFile> images) {
+		
+		Long userId = SecurityUtil.getCurrentUserId();
+		 dto.setUserId(userId);
+	    
+	    dto.setMarketStatus("N");
+	    dto.setMarketDate(new Date(System.currentTimeMillis()));
+	    images.get(0);
+	    marketMapper.insertMarket(dto);
+	    handleImages(dto.getMarketNo(), images, false);
 	}
 	
 	private void saveMarketImages(Long marketNo, List<MultipartFile> images) {
@@ -67,19 +61,17 @@ public class MarketServiceImpl implements MarketService  {
 	    });
 	}
 	
-	@Override
-	public void insertMarket(MarketDTO dto, List<MultipartFile> images) {
-		
-		Long userId = SecurityUtil.getCurrentUserId();
-		 dto.setUserId(userId);
-	    
-	    dto.setMarketStatus("N");
-	    dto.setMarketDate(new Date(System.currentTimeMillis()));
-	    images.get(0);
-	    marketMapper.insertMarket(dto);
-	    handleImages(dto.getMarketNo(), images, false);
+	
+	private void checkUserAuthorization(Long writerUserId) {
+	    Long currentUserId = SecurityUtil.getCurrentUserId();
+	    if (writerUserId == null) {
+	        throw new RuntimeException("작성자가 존재하지 않습니다.");
+	    }
+	    if (!writerUserId.equals(currentUserId)) {
+	        throw new RuntimeException("권한이 없습니다.");
+	    }
 	}
-
+	
 	@Override
 	public void updateMarket(MarketDTO dto, List<MultipartFile> images) {
 	    // 작성자 확인
@@ -151,19 +143,12 @@ public class MarketServiceImpl implements MarketService  {
 	}
 	
 	@Override
-	public void deleteMarket(Long marketNo, Long userId) {
-		
-		 Long writerUserId = marketMapper.findMarketWriter(marketNo);
-		checkUserAuthorization(writerUserId);
-	    
-	    
-		marketMapper.deleteImagesByMarketNo(marketNo);
-
-	    // 2. 게시글 삭제
+	public void deleteMarket(Long marketNo) {
+	    Long writerUserId = marketMapper.findMarketWriter(marketNo);
+	    checkUserAuthorization(writerUserId);
+	    marketMapper.deleteImagesByMarketNo(marketNo);
 	    marketMapper.deleteMarket(marketNo);
-		
 	}
-
 	@Override
 	public List<MarketDTO> findAllMarkets() {
 	    return marketMapper.findAllMarkets();

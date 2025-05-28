@@ -17,9 +17,11 @@ import com.kh.ecolog.auth.util.SecurityUtil;
 import com.kh.ecolog.file.service.FileService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CardNewsServiceImpl implements CardNewsService {
 	private final CardNewsMapper cardNewsMapper;
 	private final FileService fileService;
@@ -65,6 +67,7 @@ public class CardNewsServiceImpl implements CardNewsService {
 
 	 @Override
 	 public List<CardNewsDTO> mainCardNews() {
+		log.info("✅ CardNewsService.mainCardNews 실행됨");
 	    return cardNewsMapper.mainCardNews();
 	 }
 	 

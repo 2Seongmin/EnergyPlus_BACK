@@ -22,7 +22,7 @@ public interface MarketCommentService {
 	// 댓글 삭제 
 	void deleteComment(Long commentNo);
 
-	
+	void deleteCommentAndReplies(Long commentNo);
 	
 	
 	// 댓글 신고 

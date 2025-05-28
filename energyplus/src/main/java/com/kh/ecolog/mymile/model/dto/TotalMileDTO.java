@@ -12,9 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TotalMileDTO {
-	private Long userMileageSeq;
 	private Long userId;
-	private int totalSave;
-	private int totalUse;
-	private int totalMileage;
+	private String mileageStatus;
+	private int totalScore;
 }

@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.kh.ecolog.api.model.dao.CarbonMapper;
 import com.kh.ecolog.api.model.dao.ZerostoreMapper;
+import com.kh.ecolog.api.model.dto.CarbonDTO;
 import com.kh.ecolog.api.model.dto.ZerostoreDTO;
 
 
@@ -87,5 +89,15 @@ public class ApiServiceImpl implements ApiService {
 		
 		return apiRequest(sb.toString());
 	}
+	
+	// ----------------------------------------------------------- //
+	/* Carbon 실제 데이터 활용 */
+	private final CarbonMapper carbonMapper;
+	
+	@Override
+	public List<CarbonDTO> requestGetCarbon() {
+		return carbonMapper.requestGetCarbon();
+	}
+	
 
 }

@@ -52,11 +52,15 @@ public class MarketCommentController {
 	
 	@DeleteMapping("/{commentNo}")
 	public ResponseEntity<String> deleteComment(@PathVariable("commentNo") Long commentNo) {
-	    commentService.deleteComment(commentNo);
-	    return ResponseEntity.ok("댓글 삭제 완료!");
+	    commentService.deleteCommentAndReplies(commentNo);
+	    return ResponseEntity.ok("댓글 + 대댓글 + 신고 삭제 완료");
 	}
-	
-	
+
+    @DeleteMapping("/delete/{commentNo}")
+    public ResponseEntity<Void> deleteCommentWithReplies(@PathVariable Long commentNo) {
+    	commentService.deleteCommentAndReplies(commentNo);
+        return ResponseEntity.ok().build();
+    }
 	
 
 

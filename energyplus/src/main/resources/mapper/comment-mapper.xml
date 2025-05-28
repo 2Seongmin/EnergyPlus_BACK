@@ -50,9 +50,24 @@
 	    FROM TB_MARKET_COMMENT
 	    WHERE MARKET_COMMENT_NO = #{commentNo}
 	</select>
+	<!-- 댓글 신고 먼저 삭제 -->
+	<delete id="deleteCommentReportsByCommentNo" parameterType="long">
+	  DELETE FROM TB_MARKET_COMMENT_CNT
+	  WHERE MARKET_COMMENT_NO = #{commentNo}
+	</delete>
+	
+	<!-- 1. 대댓글 먼저 삭제 -->
+	<delete id="deleteRepliesByCommentNo" parameterType="long">
+	  DELETE FROM TB_MARKET_REPLY
+	  WHERE MARKET_COMMENT_NO = #{commentNo}
+	</delete>
+	
 	<!-- 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="long">
 		DELETE FROM TB_MARKET_COMMENT
 		WHERE MARKET_COMMENT_NO = #{marketCommentNo}
 	</delete>
+	
+	
+	
 </mapper>

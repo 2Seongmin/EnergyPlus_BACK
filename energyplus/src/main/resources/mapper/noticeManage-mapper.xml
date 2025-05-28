@@ -2,104 +2,88 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.kh.ecolog.admin.noticeManage.model.dao.NoticeManageMapper">
-  
-  	<insert id="save" parameterType="com.kh.ecolog.admin.noticeManage.model.vo.NoticeManage">
-	    INSERT INTO TB_NOTICE   (
-							      NOTICE_ID,
-							      NOTICE_TITLE,
-							      NOTICE_CONTENT,
-							      NOTICE_DATE,
-							      USER_ID
-	      						  )
-	     			     VALUES (
-							      SEQ_NOTICE.NEXTVAL,
-							      #{noticeTitle},
-							      #{noticeContent},
-							      SYSDATE,
-							      #{userId}
-	  							  )
-	  </insert>
-	  
-	<update id="update" parameterType="com.kh.ecolog.admin.noticeManage.model.dto.NoticeManageDTO">
-	    UPDATE TB_NOTICE
-	    	SET
-		        NOTICE_TITLE = #{noticeTitle},
-		        NOTICE_CONTENT = #{noticeContent}
-	    WHERE
-	    	NOTICE_ID = #{noticeId}
-	</update>
 
-	<delete id="deleteById" parameterType="long">
-	    DELETE 
-	    	FROM
-	    		TB_NOTICE
-	    WHERE	
-	    	NOTICE_ID = #{noticeId}
-	</delete>
+<mapper namespace="com.kh.ecolog.admin.noticeManage.model.dao.NoticeManageMapper">
 
-	<select id="findAll" resultType="com.kh.ecolog.admin.noticeManage.model.dto.NoticeManageDTO">
-        SELECT 
-            NOTICE_ID as noticeId,
-            NOTICE_TITLE as noticeTitle,
-            NOTICE_DATE as noticeDate
-        FROM
-        	TB_NOTICE
-        ORDER BY
-        	NOTICE_DATE DESC
-    </select>
-    
-    
-  
-	<select id="findById" resultType="com.kh.ecolog.admin.noticeManage.model.dto.NoticeManageDTO" parameterType="long">
-		  SELECT 
-		    NOTICE_ID AS noticeId,
-		    NOTICE_TITLE AS noticeTitle,
-		    NOTICE_CONTENT AS noticeContent,
-		    NOTICE_DATE AS noticeDate,
-		    USER_ID AS userId
-		  FROM
-		  	TB_NOTICE
-		  WHERE
-		  	NOTICE_ID = #{noticeId}
-	</select>
-	
-	<select id="searchNotice" resultType="com.kh.ecolog.admin.noticeManage.model.dto.NoticeManageDTO" parameterType="map">
-		SELECT 
-			    NOTICE_ID AS noticeId,
-			    NOTICE_TITLE AS noticeTitle,
-			    NOTICE_DATE AS noticeDate
-		FROM
-			  	TB_NOTICE
-		WHERE
-				NOTICE_TITLE LIKE '%' || #{keyword} || '%'
-		ORDER BY
-				NOTICE_ID DESC
-	</select>
-  
-  
-	<select id="countAll" resultType="int">
-		SELECT 
-			COUNT(*)
-		FROM
-			TB_NOTICE
-	</select>
-	
-	
-	<select id="countSearch" parameterType="map" resultType="int">
-		SELECT
-			COUNT(*) 
-		FROM
-			TB_NOTICE
-		WHERE
-			NOTICE_TITLE LIKE '%' || #{keyword} || '%'
-	</select>
+  <!-- 공지사항 등록 -->
+  <insert id="save" parameterType="com.kh.ecolog.admin.noticeManage.model.vo.NoticeManage">
+    INSERT INTO TB_NOTICE (
+      NOTICE_ID,
+      NOTICE_TITLE,
+      NOTICE_CONTENT,
+      NOTICE_DATE,
+      USER_ID
+    )
+    VALUES (
+      SEQ_NOTICE.NEXTVAL,
+      #{noticeTitle},
+      #{noticeContent},
+      SYSDATE,
+      #{userId}
+    )
+  </insert>
 
-  
-  
-  
-  
-  </mapper>
-  
- 
+  <!-- 공지사항 수정 -->
+  <update id="update" parameterType="com.kh.ecolog.admin.noticeManage.model.dto.NoticeManageDTO">
+    UPDATE TB_NOTICE
+    SET
+      NOTICE_TITLE = #{noticeTitle},
+      NOTICE_CONTENT = #{noticeContent}
+    WHERE
+      NOTICE_ID = #{noticeId}
+  </update>
+
+  <!-- 공지사항 삭제 -->
+  <delete id="deleteById" parameterType="long">
+    DELETE FROM TB_NOTICE
+    WHERE NOTICE_ID = #{noticeId}
+  </delete>
+
+  <!-- 전체 공지사항 조회 -->
+  <select id="findAll" resultType="com.kh.ecolog.admin.noticeManage.model.dto.NoticeManageDTO">
+    SELECT 
+      NOTICE_ID AS noticeId,
+      NOTICE_TITLE AS noticeTitle,
+      NOTICE_DATE AS noticeDate
+    FROM TB_NOTICE
+    ORDER BY NOTICE_DATE DESC
+  </select>
+
+  <!-- 공지사항 상세 조회 -->
+  <select id="findById" resultType="com.kh.ecolog.admin.noticeManage.model.dto.NoticeManageDTO"
+          parameterType="long">
+    SELECT 
+      NOTICE_ID AS noticeId,
+      NOTICE_TITLE AS noticeTitle,
+      NOTICE_CONTENT AS noticeContent,
+      NOTICE_DATE AS noticeDate,
+      USER_ID AS userId
+    FROM TB_NOTICE
+    WHERE NOTICE_ID = #{noticeId}
+  </select>
+
+  <!-- 공지사항 검색 -->
+  <select id="searchNotice" resultType="com.kh.ecolog.admin.noticeManage.model.dto.NoticeManageDTO"
+          parameterType="map">
+    SELECT 
+      NOTICE_ID AS noticeId,
+      NOTICE_TITLE AS noticeTitle,
+      NOTICE_DATE AS noticeDate
+    FROM TB_NOTICE
+    WHERE NOTICE_TITLE LIKE '%' || #{keyword} || '%'
+    ORDER BY NOTICE_ID DESC
+  </select>
+
+  <!-- 전체 공지사항 개수 -->
+  <select id="countAll" resultType="int">
+    SELECT COUNT(*) FROM TB_NOTICE
+  </select>
+
+  <!-- 검색된 공지사항 개수 -->
+  <select id="countSearch" parameterType="map" resultType="int">
+    SELECT COUNT(*)
+    FROM TB_NOTICE
+    WHERE NOTICE_TITLE LIKE '%' || #{keyword} || '%'
+  </select>
+
+</mapper>

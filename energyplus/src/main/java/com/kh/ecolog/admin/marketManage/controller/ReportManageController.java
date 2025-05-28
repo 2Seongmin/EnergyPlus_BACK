@@ -32,12 +32,12 @@ public class ReportManageController {
         return ResponseEntity.ok(report);
     }
     // 3. 
-    @PutMapping("/hide/{reportId}")
+    @PutMapping("/hide/{reportId}/{marketNo}")
     public ResponseEntity<?> hideMarket(
             @PathVariable("reportId") Long reportId,
             @PathVariable("marketNo") Long marketNo) {
 
-        marketService.hideMarket(marketNo); // 마켓 게시글만 숨김 처리
+        marketService.hideMarket(marketNo);
         return ResponseEntity.ok().build();
     }
 

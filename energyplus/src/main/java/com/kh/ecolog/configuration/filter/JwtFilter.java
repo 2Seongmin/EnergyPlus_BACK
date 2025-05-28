@@ -47,8 +47,13 @@ public class JwtFilter extends OncePerRequestFilter {
         
         final String requestPath = request.getServletPath();
         
-        // /auth/** 경로는 항상 허용 => 필터 적용하지 않음
-        if (requestPath.startsWith("/auth/")) {
+        // ✅ 인증 없이 접근 가능한 경로들
+        if (
+            requestPath.startsWith("/auth/") ||
+            requestPath.equals("/admin/cardnews/main") ||
+            requestPath.equals("/admin/cardnews/list") ||
+            requestPath.matches("^/admin/cardnews/\\d+$") // 예: 상세보기
+        ) {
             filterChain.doFilter(request, response);
             return;
         }
