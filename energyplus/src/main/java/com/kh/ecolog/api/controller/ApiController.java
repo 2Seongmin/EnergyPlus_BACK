@@ -36,21 +36,13 @@ public class ApiController {
     }
 	
 	@GetMapping("/energyUsage1")
-<<<<<<< HEAD
 	public ResponseEntity<String> getenergyUsage1(@RequestParam(name = "pageNo") int pageNo){
-=======
-	public ResponseEntity<String> getenergyUsage1(@RequestParam(name="pageNo") int pageNo){
->>>>>>> db8fbbe41c837f35d52665baa9f222717c0b04ae
 		String responseData = apiService.requestEnergyUsage1(pageNo);
 		return ResponseEntity.ok(responseData);
 	}
 	
 	@GetMapping("/energyUsage2")
-<<<<<<< HEAD
 	public ResponseEntity<String> getenergyUsage2(@RequestParam(name = "pageNo") int pageNo){
-=======
-	public ResponseEntity<String> getenergyUsage2(@RequestParam(name="pageNo") int pageNo){
->>>>>>> db8fbbe41c837f35d52665baa9f222717c0b04ae
 		String responseData = apiService.requestEnergyUsage2(pageNo);
 		return ResponseEntity.ok(responseData);
 	}
