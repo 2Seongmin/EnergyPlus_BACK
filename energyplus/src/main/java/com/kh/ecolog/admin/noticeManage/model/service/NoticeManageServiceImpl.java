@@ -71,6 +71,7 @@ public class NoticeManageServiceImpl implements NoticeManageService {
     @Override
     public NoticeManageDTO update(NoticeManageDTO notice) {
         noticeManageMapper.update(notice);
+        
         return notice;
     }
 

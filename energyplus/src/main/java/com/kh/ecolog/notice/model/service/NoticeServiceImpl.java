@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
+import com.kh.ecolog.exception.NoticeNotFoundException;
 import com.kh.ecolog.notice.model.dao.NoticeMapper;
 import com.kh.ecolog.notice.model.dto.NoticeDTO;
 
@@ -44,7 +45,7 @@ public class NoticeServiceImpl implements NoticeService {
     public NoticeDTO findById(Long noticeId) {
         NoticeDTO notice = noticeMapper.findById(noticeId);
         if (notice == null) {
-            throw new RuntimeException("해당 공지사항이 존재하지 않습니다.");
+            throw new NoticeNotFoundException("해당 공지사항이 존재하지 않습니다.");
         }
         return notice;
     }
