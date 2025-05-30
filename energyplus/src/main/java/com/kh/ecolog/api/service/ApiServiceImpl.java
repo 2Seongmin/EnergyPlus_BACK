@@ -44,7 +44,7 @@ public class ApiServiceImpl implements ApiService {
 		
 		StringBuilder sb = new StringBuilder("http://openapi.seoul.go.kr:8088");
 		sb.append("/" + serviceKey);
-		sb.append("/json/tbCycleStationInfo/1/100");
+		sb.append("/json/tbCycleStationInfo/1/500");
 		
 		return apiRequest(sb.toString());
 	}

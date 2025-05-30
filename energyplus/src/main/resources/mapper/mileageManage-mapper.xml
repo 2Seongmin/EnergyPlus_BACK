@@ -7,7 +7,7 @@
 
 	<!-- 관리자 권한 -->
 	<select id="findAllMileage"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			resultType="MileageManageDTO">
 		SELECT
 			  M.MILEAGE_SEQ mileageSeq
 			, M.MILEAGE_CATEGORY mileageCategory
@@ -24,7 +24,7 @@
 	
 	<select id="detailMileage"
 			parameterType="long"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			resultType="MileageManageDTO">
 		SELECT
 			  M.USER_ID userId
 			, M.MILEAGE_TITLE mileageTitle
@@ -44,7 +44,7 @@
 
 	<!-- 승인할 때 사용 -->
 	<update id="updateMileageStatusS"
-			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			parameterType="MileageManageDTO">
 		UPDATE
 			TB_MILEAGE
 		SET 
@@ -57,7 +57,7 @@
 
 	<!-- 거절할 떄 사용 -->
 	<update id="updateMileageStatusR"
-			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			parameterType="MileageManageDTO">
 		UPDATE
 			TB_MILEAGE
 		SET

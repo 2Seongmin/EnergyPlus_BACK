@@ -6,17 +6,18 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import com.kh.ecolog.mileage.model.dto.MileageDTO;
+import com.kh.ecolog.admin.mileageManage.model.dto.MileageManageDTO;
+
 
 @Mapper
 public interface MileageManageMapper {
 	
-	List<MileageDTO> findAllMileage(RowBounds rb);
+	List<MileageManageDTO> findAllMileage(RowBounds rb);
 	
-	MileageDTO detailMileage(@Param("mileageSeq") Long mileageSeq);
+	MileageManageDTO detailMileage(@Param("mileageSeq") Long mileageSeq);
 
-	void updateMileageStatusS(MileageDTO dto);
+	void updateMileageStatusS(MileageManageDTO dto);
 
-	void updateMileageStatusR(MileageDTO dto);
+	void updateMileageStatusR(MileageManageDTO dto);
 
 }
