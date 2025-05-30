@@ -26,36 +26,30 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public void insert(QnaDTO qna) {
-		// 로그인한 사용자만
-		CustomUserDetails user = authService.getUserDetails();
-		Long userId = user.getUserId();
-		
+		Long userId = getCurrentUserId();
 		Qna requestData = Qna.builder()
 						 .qnaTitle(qna.getQnaTitle())
 						 .qnaContent(qna.getQnaContent())
-						 .userId(userId) // 로그인한 사용자 ID 세팅
+						 .userId(userId)
 						 .build();
 		qnaMapper.insertQna(requestData);
 	}
 
+	// 전체 조회 및 페이징 처리
 	@Override
 	public Map<String, Object> selectAll(int pageNo, String keyword) {
-		// 로그인한 사용자만
-		CustomUserDetails user = authService.getUserDetails();
-		Long userId = user.getUserId();
+		Long userId = getCurrentUserId();
 		
-		int size = 5; // 페이지 당 5
+		int size = 5;
 		RowBounds rowBounds = new RowBounds(pageNo * size, size);
 		
 		List<QnaDTO> list;
 	    int totalCount;
 
 	    if (keyword == null || keyword.trim().isEmpty()) {
-	    	// 조건에 userId를 넣어주기
 	        list = qnaMapper.selectAll(userId, rowBounds);
 	        totalCount = qnaMapper.countAll(userId);
 	    } else {
-	    	// Map으로 userId, keyword 묶어서 넘기기
 	    	Map<String, Object> param = new HashMap();
 	    	param.put("userId", userId);
 	    	param.put("keyword", keyword);
@@ -88,6 +82,11 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	public void deleteById(Long qnaId) {
 		qnaMapper.deleteById(qnaId);
+	}
+	
+	// userId
+	private Long getCurrentUserId() {
+		return authService.getUserDetails().getUserId();
 	}
 
 }

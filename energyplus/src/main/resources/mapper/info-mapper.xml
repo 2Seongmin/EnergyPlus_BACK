@@ -4,8 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.ecolog.info.model.dao.InfoMapper">
 	
-	<update id="updateMyInfo" 
-			parameterType="InfoDTO">
+	<update id="updateMyInfo" parameterType="InfoDTO">
 		UPDATE
 		        TB_USER
 		   SET
@@ -15,8 +14,7 @@
 		        USER_ID = #{userId}
 	</update>
 	
-	<select id="selectMyInfo" 
-			resultType="InfoDTO">
+	<select id="selectMyInfo" resultType="InfoDTO">
 	    SELECT
 	    	   USER_EMAIL as userEmail
 		     , USER_NAME as userName
@@ -39,8 +37,7 @@
 	</update>
 	
 	<!--내 등급 조회-->
-	<select id="selectMyGrade"
-			resultType="InfoDTO">
+	<select id="selectMyGrade" resultType="InfoDTO">
 		SELECT
 	    	   GRADE_ID as gradeId
 		     , USER_ID as userId

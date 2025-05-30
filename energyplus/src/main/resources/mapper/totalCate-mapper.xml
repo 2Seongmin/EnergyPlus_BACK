@@ -5,8 +5,7 @@
     
 <mapper namespace="com.kh.ecolog.mymile.model.dao.TotalCateMapper">
 	
-	<select id="cateSum" parameterType="long"
-			resultType="TotalCateDTO">
+	<select id="cateSum" parameterType="long" resultType="TotalCateDTO">
 	    SELECT
 	    	    USER_ID as userId
 	    	  , NVL(SUM(CASE WHEN MILEAGE_CATEGORY = '자전거' THEN MILEAGE_SCORE END), 0) AS bikeTotal

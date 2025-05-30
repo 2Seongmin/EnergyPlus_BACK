@@ -11,12 +11,6 @@ spring:
     username:  KH15_LSM
     password: KH1234
     driver-class-name:  oracle.jdbc.driver.OracleDriver
-    hikari:
-      maximum-pool-size: 20 
-      minimum-idle: 5 
-      connection-timeout: 30000  
-      idle-timeout: 600000  
-      max-lifetime: 1800000    
   profiles:
     include: private
   mvc:

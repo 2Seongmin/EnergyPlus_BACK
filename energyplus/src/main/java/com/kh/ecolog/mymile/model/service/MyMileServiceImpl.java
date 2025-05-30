@@ -25,7 +25,6 @@ public class MyMileServiceImpl implements MyMileService {
 
 	@Override
 	public Map<String, Object> selectAll(int pageNo, String keyword) {
-		// 로그인한 사용자만
 		CustomUserDetails user = authService.getUserDetails();
 		Long userId = user.getUserId();
 		

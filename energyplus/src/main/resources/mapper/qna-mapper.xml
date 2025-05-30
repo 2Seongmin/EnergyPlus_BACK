@@ -3,6 +3,15 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.ecolog.qna.model.dao.QnaMapper">
+
+	<!--중복 코드 분리-->
+	<sql id="qnaColumns">
+	      QNA_ID as qnaId
+	    , QNA_TITLE as qnaTitle
+	    , QNA_DATE as qnaDate
+	    , QNA_STATUS as qnaStatus
+	    , USER_ID as userId
+	</sql>
 	
 	<insert id="insertQna" parameterType="Qna">
 		INSERT
@@ -46,11 +55,7 @@
 	
 	<select id="selectAll" resultType="QnaDTO">
 		SELECT
-			   QNA_ID as qnaId
-			 , QNA_TITLE as qnaTitle
-			 , QNA_DATE as qnaDate
-			 , QNA_STATUS as qnaStatus
-			 , USER_ID as userId
+			   <include refid="qnaColumns" />
 		 FROM
 		       TB_QNA
 		WHERE
@@ -62,12 +67,8 @@
 	
 	<select id="selectById" resultType="QnaDTO" parameterType="long">
 		SELECT
-		       QNA_ID as qnaId
-		     , QNA_TITLE as qnaTitle
+		       <include refid="qnaColumns" />
 		     , QNA_CONTENT as qnaContent
-		     , QNA_DATE as qnaDate
-		     , QNA_STATUS as qnaStatus
-		     , USER_ID as userId
 		 from
 		      TB_QNA
 		WHERE
@@ -87,12 +88,8 @@
 	<!-- 검색 기능 -->
 	<select id="searchQna" resultType="QnaDTO" parameterType="map">
 	  SELECT 
-		      QNA_ID as qnaId
-		    , USER_ID as userId
-		    , QNA_TITLE as qnaTitle
+		      <include refid="qnaColumns" />
 		    , QNA_CONTENT as qnaContent
-		    , QNA_DATE as qnaDate
-		    , QNA_STATUS as qnaStatus
 	    FROM
 	  	      TB_QNA
 	   WHERE

@@ -31,9 +31,7 @@ public class QnaReplyController {
 	
 	// 댓글 등록
 	@PostMapping
-	public ResponseEntity<?> insertReply(
-			@Valid @RequestBody QnaReplyDTO reply){
-		//log.info("댓글 내용 : {}", reply);
+	public ResponseEntity<?> insertReply(@Valid @RequestBody QnaReplyDTO reply){
 		qnaReplyService.insertReply(reply);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
@@ -50,24 +48,16 @@ public class QnaReplyController {
 	public ResponseEntity<QnaReplyDTO> update(
 									@PathVariable(name="id") Long replyId,
 									@RequestBody QnaReplyDTO reply) {
-		log.info("{}, {}", replyId, reply);
 		reply.setQnaReplyId(replyId);
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(qnaReplyService.update(reply));
+		return ResponseEntity.status(HttpStatus.CREATED).body(qnaReplyService.update(reply));
 	}
 	
 	// 댓글 조회
 	@GetMapping
-	public ResponseEntity<List<QnaReplyDTO>> selectReplyList(
-			@RequestParam(name="qnaId") String qnaId){
-		//log.info("{}", qnaId);
-		List<QnaReplyDTO> reply = qnaReplyService.selectReplyList(Long.parseLong(qnaId));
-		
-		if (reply == null || reply.isEmpty()) {
-	        return ResponseEntity.noContent().build(); // 댓글이 없을 때
-	    } else {
-	        return ResponseEntity.ok(reply); // 댓글이 있을 때
-	    }
+	public ResponseEntity<List<QnaReplyDTO>> selectReplyList(@RequestParam(name="qnaId") Long qnaId){
+		List<QnaReplyDTO> reply = qnaReplyService.selectReplyList(qnaId);
+		return reply.isEmpty() ? ResponseEntity.noContent().build() // 댓글 없을 때
+							   : ResponseEntity.ok(reply); // 댓글 있을 때
 	}
 	
 }

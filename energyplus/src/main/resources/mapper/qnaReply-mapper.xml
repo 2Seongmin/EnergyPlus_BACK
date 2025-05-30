@@ -23,8 +23,7 @@
 			  )
 	</insert>
 	
-	<select id="selectReplyList" parameterType="long"
-			resultType="QnaReplyDTO">
+	<select id="selectReplyList" parameterType="long" resultType="QnaReplyDTO">
 		SELECT
 			   QNA_ID as qnaId
 			 , QNA_REPLY_ID as qnaReplyId
@@ -93,9 +92,5 @@
 		 WHERE
 		       QNA_REPLY_ID = #{qnaReplyId}
 	</update>
-	
-	
-	
-	
 	
 </mapper>

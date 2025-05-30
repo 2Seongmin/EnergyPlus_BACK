@@ -51,6 +51,7 @@
 	      BY  CREATE_DATE DESC
 	</select>
 	
+	<!-- 검색된 게시글 총 개수 count -->
 	<select id="countSearch" resultType="int" parameterType="map">
 	  SELECT COUNT(*)
 	    FROM

@@ -60,10 +60,8 @@ public class QnaController {
 	public ResponseEntity<QnaDTO> update(
 								@PathVariable(name="id") Long qnaId,
 								@RequestBody QnaDTO qna){
-		//log.info("{}, {}", qnaId, qna);
 		qna.setQnaId(qnaId);
-		return ResponseEntity.status(HttpStatus.CREATED)
-							 .body(qnaService.update(qna));
+		return ResponseEntity.status(HttpStatus.CREATED).body(qnaService.update(qna));
 	}
 	
 	// 삭제
