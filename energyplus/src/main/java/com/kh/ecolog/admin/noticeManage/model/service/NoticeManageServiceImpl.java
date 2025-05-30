@@ -31,6 +31,7 @@ public class NoticeManageServiceImpl implements NoticeManageService {
         NoticeManage requestData = NoticeManage.builder()
             .noticeTitle(notice.getNoticeTitle())
             .noticeContent(notice.getNoticeContent())
+            .userId(1L)
             .build();
 
         noticeManageMapper.save(requestData);
@@ -70,6 +71,7 @@ public class NoticeManageServiceImpl implements NoticeManageService {
     @Override
     public NoticeManageDTO update(NoticeManageDTO notice) {
         noticeManageMapper.update(notice);
+        
         return notice;
     }
 

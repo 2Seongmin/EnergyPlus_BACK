@@ -88,7 +88,7 @@ public class SecurityConfigure {
             	        "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**",
             	        "/qnas/**", "/replys/**", "/challenges/**", "/test/**", "/promise/**",
             	        "/api/verification/**", "/mymarket/**", "/info/**", "/info/grade/**",
-            	        "/mymile/**", "/totalmile/**", "/totalcategory/**"
+            	        "/mymile/**", "/totalmile/**", "/totalcategory/**", "/mileages/**"
             	    ).permitAll()
 
             	    .anyRequest().authenticated()

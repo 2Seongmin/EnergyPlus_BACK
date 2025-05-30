@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class MileageDTO {
 	
 	private Long mileageSeq;

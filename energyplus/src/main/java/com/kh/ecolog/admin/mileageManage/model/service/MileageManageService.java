@@ -14,7 +14,7 @@ public interface MileageManageService {
 	
 	// 마일리지 승인(적립)
 	public void updateMileageStatusS(MileageDTO dto);
-
+	
 	// 마일리지 거부(적립 X)
 	public void updateMileageStatusR(MileageDTO dto);
 

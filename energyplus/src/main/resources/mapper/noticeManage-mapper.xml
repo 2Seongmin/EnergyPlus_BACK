@@ -11,13 +11,15 @@
       NOTICE_ID,
       NOTICE_TITLE,
       NOTICE_CONTENT,
-      NOTICE_DATE
+      NOTICE_DATE,
+      USER_ID
     )
     VALUES (
       SEQ_NOTICE.NEXTVAL,
       #{noticeTitle},
       #{noticeContent},
-      SYSDATE
+      SYSDATE,
+      #{userId}
     )
   </insert>
 
