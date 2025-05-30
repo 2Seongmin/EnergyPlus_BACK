@@ -54,5 +54,6 @@ mybatis:
                         com.kh.ecolog.api.model.dto, 
                         com.kh.ecolog.admin.qnaManage.model.dto,
                         com.kh.ecolog.mymile.model.dto,
-                        com.kh.ecolog.admin.cardnews.model.dto
+                        com.kh.ecolog.admin.cardnews.model.dto,
+                        com.kh.ecolog.admin.mileageManage.model.dto
 

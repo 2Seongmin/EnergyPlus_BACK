@@ -5,6 +5,7 @@
   
 <mapper namespace="com.kh.ecolog.mileage.model.dao.MileageMapper">
 
+	<!-- 마일리지 신청글 작성 -->
 	<insert id="saveMileage"
 			parameterType="MileageDTO">
 		INSERT 
@@ -29,14 +30,13 @@
 
 	
 	<!-- 마일리지 사용처 조회 -->
-	
 	<select id="findAllStore"
 			resultType="MileageStoreDTO">
 		SELECT
-			  MILEAGE_STORE_SEQ mileageStoreSeq
-			, MILEAGE_STORE_CATEGORY mileageStoreCategory
-			, MILEAGE_STORE_NAME mileageStoreName
-			, MILEAGE_STORE_PRICE mileageStorePrice
+			  MILEAGE_STORE_SEQ 
+			, MILEAGE_STORE_CATEGORY
+			, MILEAGE_STORE_NAME
+			, MILEAGE_STORE_PRICE
 		FROM
 			TB_MILEAGE_STORE
 		ORDER BY
@@ -44,6 +44,7 @@
 	</select>
 	
 	
+	<!-- 마일리지 사용 -->
 
 
 </mapper>

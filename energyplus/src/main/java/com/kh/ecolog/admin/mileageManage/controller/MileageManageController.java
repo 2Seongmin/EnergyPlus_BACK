@@ -6,10 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import com.kh.ecolog.admin.mileageManage.model.dto.MileageManageDTO;
 import com.kh.ecolog.admin.mileageManage.model.service.MileageManageService;
-import com.kh.ecolog.mileage.controller.MileageController;
-import com.kh.ecolog.mileage.model.dto.MileageDTO;
-import com.kh.ecolog.mileage.model.service.MileageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,16 +23,16 @@ public class MileageManageController {
 	private final MileageManageService mileageManageService;
 	
 	@GetMapping
-	public ResponseEntity<List<MileageDTO>> findAllMileage(@RequestParam(name="page", defaultValue="0") int page){
+	public ResponseEntity<List<MileageManageDTO>> findAllMileage(@RequestParam(name="page", defaultValue="0") int page){
 		
 		return ResponseEntity.ok(mileageManageService.findAllMileage(page));
 	}
 	
 	
 	@GetMapping("/{mileageSeq}")
-	public ResponseEntity<MileageDTO> getMileageDetail(@PathVariable("mileageSeq") Long mileageSeq){
+	public ResponseEntity<MileageManageDTO> getMileageDetail(@PathVariable("mileageSeq") Long mileageSeq){
 		
-		MileageDTO mileage = mileageManageService.detailMileage(mileageSeq);
+		MileageManageDTO mileage = mileageManageService.detailMileage(mileageSeq);
 		
 	    return ResponseEntity.ok(mileage);
 	}
@@ -43,7 +41,7 @@ public class MileageManageController {
 	@PostMapping("/{mileageSeq}/status")
 	public ResponseEntity<?> updateMileageStatusS(
 			@PathVariable("mileageSeq") Long mileageSeq,
-			@RequestBody MileageDTO mileageDTO) {
+			@RequestBody MileageManageDTO mileageDTO) {
 
 		mileageDTO.setMileageSeq(mileageSeq);
 		mileageManageService.updateMileageStatusS(mileageDTO);
@@ -53,7 +51,7 @@ public class MileageManageController {
 	@PostMapping("/{mileageSeq}/statusReject")
 	public ResponseEntity<?> updateMileageStatusR(
 			@PathVariable("mileageSeq") Long mileageSeq,
-			@RequestBody MileageDTO mileageDTO) {
+			@RequestBody MileageManageDTO mileageDTO) {
 
 		mileageDTO.setMileageSeq(mileageSeq);
 		mileageManageService.updateMileageStatusR(mileageDTO);
