@@ -39,15 +39,9 @@ public class InfoController {
 	}
 	
 	
-	/*
-	 * 원래 비밀번호 :
-	 * 바꿀 비밀번호 :
-	 * 바꿀 비밀번호 확인 :
-	 */
 	// 비밀번호 변경
 	@PutMapping("/pass")
 	public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordDTO changePassword){
-		//log.info("비밀번호? {}", changePassword);
 		infoService.changePassword(changePassword);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}

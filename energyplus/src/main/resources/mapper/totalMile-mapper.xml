@@ -4,8 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.ecolog.mymile.model.dao.TotalMileMapper">
 	
-	<select id="findByUserId" 
-			resultType="TotalMileDTO">
+	<select id="findByUserId" resultType="TotalMileDTO">
 	    SELECT
 			   USER_ID as userId
 			 , SUM(MILEAGE_SCORE) as totalScore

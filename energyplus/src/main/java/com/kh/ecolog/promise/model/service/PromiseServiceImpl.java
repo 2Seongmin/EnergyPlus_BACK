@@ -18,48 +18,49 @@ public class PromiseServiceImpl implements PromiseService {
 
 	private final PromiseMapper promiseMapper;
 	private final AuthService authService;
+	
+	private void validateNotAlreadyRegistered(Long userId) {
+		if (promiseMapper.findByUserId(userId) != null) {
+			throw new IllegalStateException("이미 등록된 다짐이 있습니다.");
+		}
+	}
+
+	private Promise toEntity(PromiseDTO dto, Long userId) {
+		return Promise.builder()
+		              .userPromise(dto.getUserPromise())
+		              .userId(userId)
+		              .build();
+	}
 
 	@Override
 	public void insert(PromiseDTO promise) {
-		// 임의로 아이디 지정
-		//Long userId = 1L;
-		CustomUserDetails user = authService.getUserDetails();
-		Long userId = user.getUserId();
-		
-		// 이미 작성한 다짐이 있는지 확인
-	    PromiseDTO existing = promiseMapper.findByUserId(userId);
-	    if (existing != null) {
-	        throw new IllegalStateException("이미 등록된 다짐이 있습니다.");
-	    }
-		
-		Promise requestData = 
-				Promise.builder()
-				.userPromise(promise.getUserPromise())
-				.userId(userId)
-				.build();
-		promiseMapper.insert(requestData);
+		Long userId = getCurrentUserId();
+
+		validateNotAlreadyRegistered(userId);
+
+		Promise entity = toEntity(promise, userId);
+		promiseMapper.insert(entity);
 	}
 
 	@Override
 	public void updateMyPromise(PromiseDTO promise) {
-		CustomUserDetails user = authService.getUserDetails();
-		Long userId = user.getUserId();
-		promise.setUserId(userId); // 사용자 ID 설정
-	    
+		promise.setUserId(getCurrentUserId());
 		promiseMapper.updateByUserId(promise);
 	}
 
 	
 	@Override
 	public PromiseDTO selectMyPromise() {
-		CustomUserDetails user = authService.getUserDetails();
-		Long userId = user.getUserId();
-	    
-		PromiseDTO promise = promiseMapper.findByUserId(userId);
+		PromiseDTO promise = promiseMapper.findByUserId(getCurrentUserId());
 		if(promise == null) {
-			return new PromiseDTO(); // 또는 return null;
+			return new PromiseDTO();
 		}
 		return promise;
+	}
+	
+	// userId
+	private Long getCurrentUserId() {
+		return authService.getUserDetails().getUserId();
 	}
 
 }

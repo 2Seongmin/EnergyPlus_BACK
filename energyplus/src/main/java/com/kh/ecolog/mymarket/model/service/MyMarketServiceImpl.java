@@ -23,14 +23,8 @@ public class MyMarketServiceImpl implements MyMarketService {
 
 	@Override
 	public List<MyMarketDTO> selectMyMarket() {
-		CustomUserDetails user = authService.getUserDetails();
-		Long userId = user.getUserId();
-		
-		List<MyMarketDTO> myMarket = myMarketMapper.selectMyMarket(userId);
-		if(myMarket == null) {
-			myMarket = new ArrayList<>();
-		}
-		return myMarket;
+		Long userId = authService.getUserDetails().getUserId();
+		return myMarketMapper.selectMyMarket(userId);
 	}
 
 	@Override

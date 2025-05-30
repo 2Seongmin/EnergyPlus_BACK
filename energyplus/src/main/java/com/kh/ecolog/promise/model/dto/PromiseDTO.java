@@ -20,12 +20,4 @@ public class PromiseDTO {
 	private Long userId;
 	private String userPromise;
 	private Date userPromiseDate;
-	
-	public static PromiseDTO fromEntity(Promise promise) {
-        PromiseDTO dto = new PromiseDTO();
-        dto.setUserPromiseId(promise.getUserPromiseId());
-        dto.setUserPromise(promise.getUserPromise());
-        dto.setUserId(promise.getUserId());
-        return dto;
-    }
 }

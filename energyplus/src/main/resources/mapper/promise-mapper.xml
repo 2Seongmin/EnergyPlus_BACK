@@ -4,8 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.ecolog.promise.model.dao.PromiseMapper">
 	
-	<insert id="insert" 
-			parameterType="PromiseDTO">
+	<insert id="insert" parameterType="PromiseDTO">
 		INSERT 
 		  INTO 
 		       TB_PROMISE
@@ -24,8 +23,7 @@
 			  )
 	</insert>
 	
-	<update id="updateByUserId" 
-			parameterType="PromiseDTO">
+	<update id="updateByUserId" parameterType="PromiseDTO">
 		UPDATE
 		        TB_PROMISE
 		   SET
@@ -35,8 +33,7 @@
 		        USER_ID = #{userId}
 	</update>
 	
-	<select id="findByUserId" 
-			resultType="PromiseDTO">
+	<select id="findByUserId" resultType="PromiseDTO">
 	    SELECT
 	    	   USER_PROMISE_ID as userPromiseId
 		     , USER_PROMISE as userPromise
@@ -47,6 +44,5 @@
 	     WHERE 
 	     	   USER_ID = #{userId}
 	</select>
-	
 	
 </mapper>
